@@ -1,5 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_order_management/core/utils/widget/dialog_managers/dialog_manager.dart';
+import 'package:flutter_order_management/views/components/buttons/classic_button.dart';
+import 'package:flutter_order_management/views/components/spacer/spacer.dart';
+import 'package:flutter_order_management/views/components/text_form_fields/classic_text_form_field.dart';
 import 'package:flutter_order_management/views/themes/cubit/theme_cubit.dart';
 
 import 'bloc/login_bloc.dart';
@@ -20,17 +24,11 @@ class LoginView extends LoginViewModel {
           bloc: loginBloc,
           listener: (context, state) {
             if (state is LoginProcessLoading) {
-              ScaffoldMessenger.of(context).showSnackBar(
-                const SnackBar(content: Text('LoginProcessLoading')),
-              );
+              DialogManager.i.showSnacBar(context, 'LoginProcessLoading');
             } else if (state is LoginProcessSuccesful) {
-              ScaffoldMessenger.of(context).showSnackBar(
-                const SnackBar(content: Text('LoginProcessSuccesful')),
-              );
+              DialogManager.i.showSnacBar(context, 'LoginProcessSuccesful');
             } else if (state is LoginProcessError) {
-              ScaffoldMessenger.of(context).showSnackBar(
-                const SnackBar(content: Text('LoginProcessError')),
-              );
+              DialogManager.i.showSnacBar(context, 'LoginProcessError');
             }
           },
           child: Center(
@@ -50,26 +48,21 @@ class LoginView extends LoginViewModel {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          MyTextFormField(controllerText: controllerEmail, dataText: emailText),
-          const MySpacer(height: 50),
-          MyTextFormField(controllerText: controllerPassword, dataText: passwordText),
-          const MySpacer(height: 50),
-          myFormButton(),
+          classicTextFormField(controllerText: controllerEmail, dataText: emailText),
+          classicSpacer(height: 50),
+          classicTextFormField(controllerText: controllerPassword, dataText: passwordText),
+          classicSpacer(height: 50),
+          classicButton(
+              text: buttonText,
+              customOnPressed: () {
+                if (formKey.currentState!.validate()) {
+                  fetchUser(controllerEmail.text, controllerPassword.text);
+                  controllerEmail.clear();
+                  controllerPassword.clear();
+                }
+              }),
         ],
       ),
-    );
-  }
-
-  Widget myFormButton() {
-    return ElevatedButton(
-      onPressed: () {
-        if (formKey.currentState!.validate()) {
-          fetchUser(controllerEmail.text, controllerPassword.text);
-          controllerEmail.clear();
-          controllerPassword.clear();
-        }
-      },
-      child: Text(buttonText),
     );
   }
 }
@@ -94,49 +87,6 @@ class MyAppBar extends StatelessWidget implements PreferredSizeWidget {
           icon: const Icon(Icons.brightness_6),
         ),
       ],
-    );
-  }
-}
-
-class MySpacer extends StatelessWidget {
-  const MySpacer({
-    required this.height,
-    Key? key,
-  }) : super(key: key);
-  final double height;
-
-  @override
-  Widget build(BuildContext context) {
-    return SizedBox(
-      height: height,
-    );
-  }
-}
-
-class MyTextFormField extends StatelessWidget {
-  const MyTextFormField({
-    Key? key,
-    required this.controllerText,
-    required this.dataText,
-  }) : super(key: key);
-
-  final TextEditingController controllerText;
-  final String dataText;
-
-  @override
-  Widget build(BuildContext context) {
-    return TextFormField(
-      validator: (value) {
-        if (value == null || value.isEmpty) {
-          return 'Please enter some text';
-        }
-        return null;
-      },
-      controller: controllerText,
-      decoration: InputDecoration(
-        border: const OutlineInputBorder(),
-        hintText: dataText,
-      ),
     );
   }
 }

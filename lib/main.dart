@@ -4,14 +4,20 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_order_management/views/pages/login/login.dart';
 
 import 'app_observer.dart';
+import 'data/sources/database/local_database_helper.dart';
 import 'views/themes/cubit/theme_cubit.dart';
 
-void main() {
+Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  await initialization();
   BlocOverrides.runZoned(
     () => runApp(const MyApp()),
     blocObserver: MyAppObserver(),
   );
+}
+
+Future<void> initialization() async {
+  await LocaleDatabaseHelper.i.initLocalDatabase();
 }
 
 class MyApp extends StatefulWidget {
@@ -34,7 +40,7 @@ class _MyAppState extends State<MyApp> {
             theme: state,
             localizationsDelegates: AppLocalizations.localizationsDelegates,
             supportedLocales: AppLocalizations.supportedLocales,
-            home: Login(),
+            home: const Login(),
           );
         },
       ),
