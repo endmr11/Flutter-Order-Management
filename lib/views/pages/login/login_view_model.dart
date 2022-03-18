@@ -12,14 +12,12 @@ abstract class LoginViewModel extends State<Login> with LoginResources {
   @override
   void initState() {
     super.initState();
-    log(">>>>> INIT STATE WORKING");
     loginBloc = LoginBloc();
   }
 
-  Future<void> fetchUser(String email, String password) async {
-    log(">>>>> FETCHUSER FUNCTION WORKING");
+  Future<void> login(String email, String password) async {
     log(email + " " + password);
-    loginBloc?.add(LoginProcessStart());
+    loginBloc?.add(LoginProcessStart(email, password));
   }
 
   @override

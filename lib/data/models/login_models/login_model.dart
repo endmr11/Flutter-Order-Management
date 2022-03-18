@@ -1,11 +1,43 @@
+// To parse this JSON data, do
+//
+//     final loginResponseModel = loginResponseModelFromJson(jsonString);
+
 import 'dart:convert';
 
-LoginModel loginModelFromJson(String str) => LoginModel.fromJson(json.decode(str));
+LoginResponseModel loginResponseModelFromJson(String str) => LoginResponseModel.fromJson(json.decode(str));
 
-String loginModelToJson(LoginModel data) => json.encode(data.toJson());
+String loginResponseModelToJson(LoginResponseModel data) => json.encode(data.toJson());
 
-class LoginModel {
-  LoginModel({
+class LoginResponseModel {
+  LoginResponseModel({
+    this.status,
+    this.message,
+    this.path,
+    this.model,
+  });
+
+  int? status;
+  String? message;
+  String? path;
+  List<Model>? model;
+
+  factory LoginResponseModel.fromJson(Map<String, dynamic> json) => LoginResponseModel(
+        status: json["status"],
+        message: json["message"],
+        path: json["path"],
+        model: json["model"] == null ? null : List<Model>.from(json["model"].map((x) => Model.fromJson(x))),
+      );
+
+  Map<String, dynamic> toJson() => {
+        "status": status,
+        "message": message,
+        "path": path,
+        "model": model == null ? null : List<dynamic>.from(model!.map((x) => x.toJson())),
+      };
+}
+
+class Model {
+  Model({
     this.id,
     this.name,
     this.surname,
@@ -21,7 +53,7 @@ class LoginModel {
   String? token;
   int? userType;
 
-  factory LoginModel.fromJson(Map<String, dynamic> json) => LoginModel(
+  factory Model.fromJson(Map<String, dynamic> json) => Model(
         id: json["id"],
         name: json["name"],
         surname: json["surname"],

@@ -66,7 +66,7 @@ class LoginView extends LoginViewModel {
             text: buttonText,
             customOnPressed: () {
               if (formKey.currentState!.validate()) {
-                fetchUser(controllerEmail.text, controllerPassword.text);
+                login(controllerEmail.text, controllerPassword.text);
                 controllerEmail.clear();
                 controllerPassword.clear();
               }

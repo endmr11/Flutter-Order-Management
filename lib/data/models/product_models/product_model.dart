@@ -1,11 +1,43 @@
+// To parse this JSON data, do
+//
+//     final productResponseModel = productResponseModelFromJson(jsonString);
+
 import 'dart:convert';
 
-ProductModel productModelFromJson(String str) => ProductModel.fromJson(json.decode(str));
+ProductResponseModel productResponseModelFromJson(String str) => ProductResponseModel.fromJson(json.decode(str));
 
-String productModelToJson(ProductModel data) => json.encode(data.toJson());
+String productResponseModelToJson(ProductResponseModel data) => json.encode(data.toJson());
 
-class ProductModel {
-  ProductModel({
+class ProductResponseModel {
+  ProductResponseModel({
+    this.status,
+    this.message,
+    this.path,
+    this.model,
+  });
+
+  int? status;
+  String? message;
+  String? path;
+  List<Model>? model;
+
+  factory ProductResponseModel.fromJson(Map<String, dynamic> json) => ProductResponseModel(
+        status: json["status"],
+        message: json["message"],
+        path: json["path"],
+        model: json["model"] == null ? null : List<Model>.from(json["model"].map((x) => Model.fromJson(x))),
+      );
+
+  Map<String, dynamic> toJson() => {
+        "status": status,
+        "message": message,
+        "path": path,
+        "model": model == null ? null : List<dynamic>.from(model!.map((x) => x.toJson())),
+      };
+}
+
+class Model {
+  Model({
     this.productId,
     this.productName,
     this.productDesc,
@@ -17,7 +49,7 @@ class ProductModel {
   String? productDesc;
   int? productPrice;
 
-  factory ProductModel.fromJson(Map<String, dynamic> json) => ProductModel(
+  factory Model.fromJson(Map<String, dynamic> json) => Model(
         productId: json["product_id"],
         productName: json["product_name"],
         productDesc: json["product_desc"],
