@@ -1,9 +1,17 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:flutter_order_management/views/pages/login/login.dart';
+
+import 'app_observer.dart';
+import 'views/themes/cubit/theme_cubit.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
-  runApp(const MyApp());
+  BlocOverrides.runZoned(
+    () => runApp(const MyApp()),
+    blocObserver: MyAppObserver(),
+  );
 }
 
 class MyApp extends StatefulWidget {
@@ -16,32 +24,19 @@ class MyApp extends StatefulWidget {
 class _MyAppState extends State<MyApp> {
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Flutter Demo',
-      debugShowCheckedModeBanner:false,
-      localizationsDelegates: AppLocalizations.localizationsDelegates,
-      supportedLocales: AppLocalizations.supportedLocales,
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
-      ),
-      home: const Test(),
-    );
-  }
-}
-
-class Test extends StatefulWidget {
-  const Test({Key? key}) : super(key: key);
-
-  @override
-  State<Test> createState() => _TestState();
-}
-
-class _TestState extends State<Test> {
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text(AppLocalizations.of(context)!.login),
+    return BlocProvider(
+      create: (context) => ThemeCubit(),
+      child: BlocBuilder<ThemeCubit, ThemeData>(
+        builder: (context, state) {
+          return MaterialApp(
+            title: 'Flutter Demo',
+            debugShowCheckedModeBanner: false,
+            theme: state,
+            localizationsDelegates: AppLocalizations.localizationsDelegates,
+            supportedLocales: AppLocalizations.supportedLocales,
+            home: Login(),
+          );
+        },
       ),
     );
   }
