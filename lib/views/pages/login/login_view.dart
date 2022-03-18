@@ -34,11 +34,11 @@ class LoginView extends LoginViewModel {
           bloc: loginBloc,
           listener: (context, state) {
             if (state is LoginProcessLoading) {
-              DialogManager.i.showSnacBar(context, 'LoginProcessLoading');
+              DialogManager.i.showSnacBar(context: context, text: 'LoginProcessLoading');
             } else if (state is LoginProcessSuccesful) {
-              DialogManager.i.showSnacBar(context, 'LoginProcessSuccesful');
+              DialogManager.i.showSnacBar(context: context, text: 'LoginProcessSuccesful');
             } else if (state is LoginProcessError) {
-              DialogManager.i.showSnacBar(context, 'LoginProcessError');
+              DialogManager.i.showSnacBar(context: context, text: 'LoginProcessError');
             }
           },
           child: Center(

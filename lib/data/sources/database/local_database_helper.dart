@@ -11,13 +11,13 @@ class LocaleDatabaseHelper {
     _prefs = await SharedPreferences.getInstance();
   }
 
-  String? get currentUserEmail => _prefs?.getString(LocaleDatabaseConstants.getUserEmailKey);
-  bool? get isLoggedIn => _prefs?.getBool(LocaleDatabaseConstants.getUserLoggedInKey);
-  int? get currentUserId => _prefs?.getInt(LocaleDatabaseConstants.getUserIdKey);
-  String? get currentUserName => _prefs?.getString(LocaleDatabaseConstants.getUserNameKey);
-  String? get currentUserSurname => _prefs?.getString(LocaleDatabaseConstants.getUserSurnameKey);
-  String? get currentUserToken => _prefs?.getString(LocaleDatabaseConstants.getUserTokenKey);
-  int? get currentUserGroup => _prefs?.getInt(LocaleDatabaseConstants.getUserGroupKey);
+  static String? get currentUserEmail => _prefs?.getString(LocaleDatabaseConstants.getUserEmailKey);
+  static bool? get isLoggedIn => _prefs?.getBool(LocaleDatabaseConstants.getUserLoggedInKey);
+  static int? get currentUserId => _prefs?.getInt(LocaleDatabaseConstants.getUserIdKey);
+  static String? get currentUserName => _prefs?.getString(LocaleDatabaseConstants.getUserNameKey);
+  static String? get currentUserSurname => _prefs?.getString(LocaleDatabaseConstants.getUserSurnameKey);
+  static String? get currentUserToken => _prefs?.getString(LocaleDatabaseConstants.getUserTokenKey);
+  static int? get currentUserGroup => _prefs?.getInt(LocaleDatabaseConstants.getUserGroupKey);
 
   static void setCurrentUserEmail(String userEmail) {
     _prefs?.setString(LocaleDatabaseConstants.getUserEmailKey, userEmail);

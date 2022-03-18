@@ -11,7 +11,7 @@ class LoginModel {
     this.surname,
     this.email,
     this.token,
-    this.userGroup,
+    this.userType,
   });
 
   int? id;
@@ -19,7 +19,7 @@ class LoginModel {
   String? surname;
   String? email;
   String? token;
-  int? userGroup;
+  int? userType;
 
   factory LoginModel.fromJson(Map<String, dynamic> json) => LoginModel(
         id: json["id"],
@@ -27,7 +27,7 @@ class LoginModel {
         surname: json["surname"],
         email: json["email"],
         token: json["token"],
-        userGroup: json["user_group"],
+        userType: json["user_type"],
       );
 
   Map<String, dynamic> toJson() => {
@@ -36,6 +36,6 @@ class LoginModel {
         "surname": surname,
         "email": email,
         "token": token,
-        "user_group": userGroup,
+        "user_type": userType,
       };
 }
