@@ -17,38 +17,65 @@ class LocaleDatabaseHelper {
   String? get currentUserName => _prefs?.getString(LocaleDatabaseConstants.getUserNameKey);
   String? get currentUserSurname => _prefs?.getString(LocaleDatabaseConstants.getUserSurnameKey);
   String? get currentUserToken => _prefs?.getString(LocaleDatabaseConstants.getUserTokenKey);
-  int? get currentUserGroup => _prefs?.getInt(LocaleDatabaseConstants.getUserGroupKey);
+  int? get currentUserType => _prefs?.getInt(LocaleDatabaseConstants.getUserTypeKey);
   bool? get isLight => _prefs?.getBool(LocaleDatabaseConstants.getUserThemeKey);
 
-  void setCurrentUserEmail(String userEmail) {
-    _prefs?.setString(LocaleDatabaseConstants.getUserEmailKey, userEmail);
+  void setCurrentUserEmail(String? userEmail) {
+    if (userEmail != null) {
+      _prefs?.setString(LocaleDatabaseConstants.getUserEmailKey, userEmail);
+    }
   }
 
-  void setCurrentUserLoggedIn(bool loggedIn) {
-    _prefs?.setBool(LocaleDatabaseConstants.getUserLoggedInKey, loggedIn);
+  void setCurrentUserLoggedIn(bool? loggedIn) {
+    if (loggedIn != null) {
+      _prefs?.setBool(LocaleDatabaseConstants.getUserLoggedInKey, loggedIn);
+    }
   }
 
-  void setCurrentUserId(int userId) {
-    _prefs?.setInt(LocaleDatabaseConstants.getUserNameKey, userId);
+  void setCurrentUserId(int? userId) {
+    if (userId != null) {
+      _prefs?.setInt(LocaleDatabaseConstants.getUserIdKey, userId);
+    }
   }
 
-  void setCurrentUserName(String userName) {
-    _prefs?.setString(LocaleDatabaseConstants.getUserNameKey, userName);
+  void setCurrentUserName(String? userName) {
+    if (userName != null) {
+      _prefs?.setString(LocaleDatabaseConstants.getUserNameKey, userName);
+    }
   }
 
-  void setCurrentUserSurname(String userSurname) {
-    _prefs?.setString(LocaleDatabaseConstants.getUserSurnameKey, userSurname);
+  void setCurrentUserSurname(String? userSurname) {
+    if (userSurname != null) {
+      _prefs?.setString(LocaleDatabaseConstants.getUserSurnameKey, userSurname);
+    }
   }
 
-  void setCurrentUserToken(String token) {
-    _prefs?.setString(LocaleDatabaseConstants.getUserTokenKey, token);
+  void setCurrentUserToken(String? token) {
+    if (token != null) {
+      _prefs?.setString(LocaleDatabaseConstants.getUserTokenKey, token);
+    }
   }
 
-  void setCurrentUserGroup(int userGroup) {
-    _prefs?.setInt(LocaleDatabaseConstants.getUserGroupKey, userGroup);
+  void setCurrentUserType(int? userType) {
+    if (userType != null) {
+      _prefs?.setInt(LocaleDatabaseConstants.getUserTypeKey, userType);
+    }
   }
 
-  void setCurrentUserTheme(bool isLight) {
-    _prefs?.setBool(LocaleDatabaseConstants.getUserThemeKey, isLight);
+  void setCurrentUserTheme(bool? isLight) {
+    if (isLight != null) {
+      _prefs?.setBool(LocaleDatabaseConstants.getUserThemeKey, isLight);
+    }
+  }
+
+  Future<void> userSessionClear() async {
+    //await _prefs?.clear();
+    await _prefs?.remove(LocaleDatabaseConstants.getUserEmailKey);
+    await _prefs?.remove(LocaleDatabaseConstants.getUserIdKey);
+    await _prefs?.remove(LocaleDatabaseConstants.getUserLoggedInKey);
+    await _prefs?.remove(LocaleDatabaseConstants.getUserNameKey);
+    await _prefs?.remove(LocaleDatabaseConstants.getUserSurnameKey);
+    await _prefs?.remove(LocaleDatabaseConstants.getUserTokenKey);
+    await _prefs?.remove(LocaleDatabaseConstants.getUserTypeKey);
   }
 }

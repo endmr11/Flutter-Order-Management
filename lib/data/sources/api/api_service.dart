@@ -14,7 +14,7 @@ class APIService {
     var url = Uri.parse(EnvConfig.apiURL + EnvConfig.loginAPI);
     var response = await http.post(url, headers: requestHeaders, body: jsonEncode(model.toJson()));
     if (response.statusCode == 200) {
-      log(loginResponseModelFromJson(response.body).status.toString(), name: "TRUE:");
+      log(response.statusCode.toString(), name: "API PATH:/login");
       return loginResponseModelFromJson(response.body);
     }
   }

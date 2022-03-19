@@ -1,11 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:flutter_order_management/core/services/temp_storage.dart';
 import 'package:flutter_order_management/core/utils/widget/dialog_managers/dialog_manager.dart';
+import 'package:flutter_order_management/data/sources/database/local_database_helper.dart';
 import 'package:flutter_order_management/views/components/app_bars/classic_app_bar.dart';
 import 'package:flutter_order_management/views/components/buttons/classic_button.dart';
 import 'package:flutter_order_management/views/components/spacer/spacer.dart';
 import 'package:flutter_order_management/views/components/text_form_fields/classic_text_form_field.dart';
-import 'package:flutter_order_management/views/themes/cubit/theme_cubit.dart';
+import 'package:flutter_order_management/views/pages/home/home.dart';
 
 import 'bloc/login_bloc.dart';
 import 'login_view_model.dart';
@@ -14,17 +17,31 @@ class LoginView extends LoginViewModel {
   final GlobalKey<FormState> formKey = GlobalKey<FormState>();
   final TextEditingController controllerEmail = TextEditingController();
   final TextEditingController controllerPassword = TextEditingController();
-
+  var sayi = 0;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: CustomActionAppBar(
-        title: title,
+        title: AppLocalizations.of(context)!.login,
         centerTitle: true,
         actions: [
           IconButton(
-            onPressed: () => context.read<ThemeCubit>().toggleTheme(),
+            //onPressed: () => context.read<ThemeCubit>().toggleTheme(),
+            onPressed: () {
+              LocaleDatabaseHelper.i.setCurrentUserTheme(LocaleDatabaseHelper.i.isLight != null
+                  ? LocaleDatabaseHelper.i.isLight!
+                      ? false
+                      : true
+                  : false);
+              TempStorage.themeDataController.add(LocaleDatabaseHelper.i.isLight!);
+            },
             icon: const Icon(Icons.brightness_6),
+          ),
+          IconButton(
+            onPressed: () {
+              TempStorage.langDataController.add('en');
+            },
+            icon: const Icon(Icons.language),
           ),
         ],
       ),
@@ -37,9 +54,11 @@ class LoginView extends LoginViewModel {
               showLoadingDialog();
             } else if (state is LoginProcessSuccesful) {
               Navigator.pop(context);
-              DialogManager.i.showSnacBar(context: context, text: 'LoginProcessSuccesful');
+              Navigator.pushReplacement(
+                context,
+                MaterialPageRoute(builder: (BuildContext context) => const Home()),
+              );
             } else if (state is LoginProcessError) {
-              
               Navigator.pop(context);
               showErrorDialog();
             }
