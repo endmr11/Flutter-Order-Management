@@ -25,7 +25,7 @@ class LoginView extends LoginViewModel {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: CustomActionAppBar(
-        title: AppLocalizations.of(context)!.login,
+        title: AppLocalizations.of(context)!.appTitle,
         centerTitle: true,
         actions: [
           IconButton(
@@ -82,7 +82,7 @@ class LoginView extends LoginViewModel {
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: [
-                  const Placeholder(fallbackHeight: 100,),
+                  Image.asset(loginBannerUri),
                   classicSpacer(height: 20),
                   formBuilder(),
                 ],
@@ -111,12 +111,23 @@ class LoginView extends LoginViewModel {
       key: formKey,
       child: Column(
         children: [
-          classicTextFormField(controllerText: controllerEmail, dataText: emailText),
+          classicTextFormField(
+            icon: const Icon(Icons.mail),
+            controllerText: controllerEmail,
+            dataText: AppLocalizations.of(context)!.email,
+            context: context,
+          ),
           classicSpacer(height: 50),
-          classicTextFormField(controllerText: controllerPassword, dataText: passwordText),
+          classicTextFormField(
+            icon: const Icon(Icons.password),
+            controllerText: controllerPassword,
+            dataText: AppLocalizations.of(context)!.password,
+            context: context,
+            obscureText: true,
+          ),
           classicSpacer(height: 50),
           classicButton(
-            text: buttonText,
+            text: AppLocalizations.of(context)!.login,
             customOnPressed: () {
               if (formKey.currentState!.validate()) {
                 login(controllerEmail.text, controllerPassword.text);

@@ -2,6 +2,9 @@
     "appTitle": "Bitirme Ödevi",
     "login": "Login",
     "register": "Register",
+    "email":"Email",
+    "password":"Password",
+    "formWarning":"Please enter some text",
     "openSettings": "Open Settings",
     "heroCount": "{count,plural, =0{No heroes yet} =1{1 hero} other{{count} heroes}}",
     "@heroCount": {

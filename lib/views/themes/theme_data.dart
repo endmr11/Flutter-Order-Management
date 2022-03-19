@@ -249,7 +249,7 @@ class ThemeCustomData {
       ),
       filled: false,
       fillColor: Color(0x00000000),
-      errorBorder: UnderlineInputBorder(
+      errorBorder: OutlineInputBorder(
         borderSide: BorderSide(
           color: Color(0xff000000),
           width: 1,
@@ -257,7 +257,7 @@ class ThemeCustomData {
         ),
         borderRadius: BorderRadius.all(Radius.circular(4.0)),
       ),
-      focusedBorder: UnderlineInputBorder(
+      focusedBorder: OutlineInputBorder(
         borderSide: BorderSide(
           color: Color(0xff000000),
           width: 1,
@@ -265,7 +265,7 @@ class ThemeCustomData {
         ),
         borderRadius: BorderRadius.all(Radius.circular(4.0)),
       ),
-      focusedErrorBorder: UnderlineInputBorder(
+      focusedErrorBorder: OutlineInputBorder(
         borderSide: BorderSide(
           color: Color(0xff000000),
           width: 1,
@@ -273,7 +273,7 @@ class ThemeCustomData {
         ),
         borderRadius: BorderRadius.all(Radius.circular(4.0)),
       ),
-      disabledBorder: UnderlineInputBorder(
+      disabledBorder: OutlineInputBorder(
         borderSide: BorderSide(
           color: Color(0xff000000),
           width: 1,
@@ -281,7 +281,7 @@ class ThemeCustomData {
         ),
         borderRadius: BorderRadius.all(Radius.circular(4.0)),
       ),
-      enabledBorder: UnderlineInputBorder(
+      enabledBorder: OutlineInputBorder(
         borderSide: BorderSide(
           color: Color(0xff000000),
           width: 1,
@@ -289,7 +289,7 @@ class ThemeCustomData {
         ),
         borderRadius: BorderRadius.all(Radius.circular(4.0)),
       ),
-      border: UnderlineInputBorder(
+      border: OutlineInputBorder(
         borderSide: BorderSide(
           color: Color(0xff000000),
           width: 1,
@@ -606,7 +606,7 @@ class ThemeCustomData {
       ),
       filled: false,
       fillColor: Color(0x00000000),
-      errorBorder: UnderlineInputBorder(
+      errorBorder: OutlineInputBorder(
         borderSide: BorderSide(
           color: Color(0xff000000),
           width: 1,
@@ -614,7 +614,7 @@ class ThemeCustomData {
         ),
         borderRadius: BorderRadius.all(Radius.circular(4.0)),
       ),
-      focusedBorder: UnderlineInputBorder(
+      focusedBorder: OutlineInputBorder(
         borderSide: BorderSide(
           color: Color(0xff000000),
           width: 1,
@@ -622,7 +622,7 @@ class ThemeCustomData {
         ),
         borderRadius: BorderRadius.all(Radius.circular(4.0)),
       ),
-      focusedErrorBorder: UnderlineInputBorder(
+      focusedErrorBorder: OutlineInputBorder(
         borderSide: BorderSide(
           color: Color(0xff000000),
           width: 1,
@@ -630,7 +630,7 @@ class ThemeCustomData {
         ),
         borderRadius: BorderRadius.all(Radius.circular(4.0)),
       ),
-      disabledBorder: UnderlineInputBorder(
+      disabledBorder: OutlineInputBorder(
         borderSide: BorderSide(
           color: Color(0xff000000),
           width: 1,
@@ -638,7 +638,7 @@ class ThemeCustomData {
         ),
         borderRadius: BorderRadius.all(Radius.circular(4.0)),
       ),
-      enabledBorder: UnderlineInputBorder(
+      enabledBorder: OutlineInputBorder(
         borderSide: BorderSide(
           color: Color(0xff000000),
           width: 1,
@@ -646,7 +646,7 @@ class ThemeCustomData {
         ),
         borderRadius: BorderRadius.all(Radius.circular(4.0)),
       ),
-      border: UnderlineInputBorder(
+      border: OutlineInputBorder(
         borderSide: BorderSide(
           color: Color(0xff000000),
           width: 1,
