@@ -29,7 +29,6 @@ class LoginView extends LoginViewModel {
         centerTitle: true,
         actions: [
           IconButton(
-            //onPressed: () => context.read<ThemeCubit>().toggleTheme(),
             onPressed: () {
               LocaleDatabaseHelper.i.setCurrentUserTheme(LocaleDatabaseHelper.i.isLight != null
                   ? LocaleDatabaseHelper.i.isLight!
@@ -76,10 +75,18 @@ class LoginView extends LoginViewModel {
               showErrorDialog();
             }
           },
-          child: Center(
-            child: Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: formBuilder(),
+          child: Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: SingleChildScrollView(
+              physics: const NeverScrollableScrollPhysics(),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: [
+                  const Placeholder(fallbackHeight: 100,),
+                  classicSpacer(height: 20),
+                  formBuilder(),
+                ],
+              ),
             ),
           ),
         ),
@@ -103,7 +110,6 @@ class LoginView extends LoginViewModel {
     return Form(
       key: formKey,
       child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           classicTextFormField(controllerText: controllerEmail, dataText: emailText),
           classicSpacer(height: 50),

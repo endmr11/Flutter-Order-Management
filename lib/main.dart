@@ -6,11 +6,11 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_order_management/views/pages/home/home.dart';
 import 'package:flutter_order_management/views/pages/login/login.dart';
-import 'package:flutter_order_management/views/themes/theme_data.dart';
 
 import 'app_observer.dart';
 import 'core/services/temp_storage.dart';
 import 'data/sources/database/local_database_helper.dart';
+import 'views/themes/theme_data.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -56,11 +56,13 @@ class _MyAppState extends State<MyApp> {
     return MaterialApp(
       title: 'Flutter Demo',
       debugShowCheckedModeBanner: false,
-      theme: isLight == null
+     theme: isLight == null
           ? ThemeData.light()
           : isLight!
               ? ThemeCustomData.lightTheme
               : ThemeCustomData.darkTheme,
+  
+      themeMode: ThemeMode.system,
       localizationsDelegates: AppLocalizations.localizationsDelegates,
       supportedLocales: AppLocalizations.supportedLocales,
       locale: Locale(locale ?? 'tr'),
