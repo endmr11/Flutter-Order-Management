@@ -19,6 +19,7 @@ class LocaleDatabaseHelper {
   String? get currentUserToken => _prefs?.getString(LocaleDatabaseConstants.getUserTokenKey);
   int? get currentUserType => _prefs?.getInt(LocaleDatabaseConstants.getUserTypeKey);
   bool? get isLight => _prefs?.getBool(LocaleDatabaseConstants.getUserThemeKey);
+  String? get currentUserLang => _prefs?.getString(LocaleDatabaseConstants.getUserLangKey);
 
   void setCurrentUserEmail(String? userEmail) {
     if (userEmail != null) {
@@ -65,6 +66,12 @@ class LocaleDatabaseHelper {
   void setCurrentUserTheme(bool? isLight) {
     if (isLight != null) {
       _prefs?.setBool(LocaleDatabaseConstants.getUserThemeKey, isLight);
+    }
+  }
+
+  void setCurrentUserLang(String? lang) {
+    if (lang != null) {
+      _prefs?.setString(LocaleDatabaseConstants.getUserLangKey, lang);
     }
   }
 

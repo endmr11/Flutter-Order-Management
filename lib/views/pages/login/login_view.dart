@@ -1,3 +1,6 @@
+import 'dart:io';
+
+import 'package:flag/flag.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
@@ -17,7 +20,7 @@ class LoginView extends LoginViewModel {
   final GlobalKey<FormState> formKey = GlobalKey<FormState>();
   final TextEditingController controllerEmail = TextEditingController();
   final TextEditingController controllerPassword = TextEditingController();
-  var sayi = 0;
+  String? dropdownValue = LocaleDatabaseHelper.i.currentUserLang ?? Platform.localeName.substring(0, 2);
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -37,11 +40,21 @@ class LoginView extends LoginViewModel {
             },
             icon: const Icon(Icons.brightness_6),
           ),
-          IconButton(
-            onPressed: () {
-              TempStorage.langDataController.add('en');
+          langDropdownButton(
+            dropdownValue: dropdownValue,
+            onChanged: (val) {
+              setState(() {
+                dropdownValue = val!;
+                LocaleDatabaseHelper.i.setCurrentUserLang(val);
+                TempStorage.langDataController.add(val);
+              });
             },
-            icon: const Icon(Icons.language),
+            items: <String>['en', 'tr'].map<DropdownMenuItem<String>>((String value) {
+              return DropdownMenuItem<String>(
+                value: value,
+                child: Flag.fromString(value == "tr" ? 'tr' : 'us', height: 20, width: 20, fit: BoxFit.fill),
+              );
+            }).toList(),
           ),
         ],
       ),
@@ -71,6 +84,18 @@ class LoginView extends LoginViewModel {
           ),
         ),
       ),
+    );
+  }
+
+  DropdownButton<String> langDropdownButton({
+    required String? dropdownValue,
+    required void Function(String?)? onChanged,
+    required List<DropdownMenuItem<String>>? items,
+  }) {
+    return DropdownButton<String>(
+      value: dropdownValue,
+      onChanged: onChanged,
+      items: items,
     );
   }
 

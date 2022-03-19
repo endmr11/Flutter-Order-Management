@@ -1,10 +1,12 @@
 import 'dart:async';
+import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_order_management/views/pages/home/home.dart';
 import 'package:flutter_order_management/views/pages/login/login.dart';
+import 'package:flutter_order_management/views/themes/theme_data.dart';
 
 import 'app_observer.dart';
 import 'core/services/temp_storage.dart';
@@ -28,7 +30,7 @@ class MyApp extends StatefulWidget {
 
 class _MyAppState extends State<MyApp> {
   bool? isLight;
-  String? locale;
+  String? locale = LocaleDatabaseHelper.i.currentUserLang ?? Platform.localeName.substring(0, 2);
   StreamSubscription<bool>? themeStreamSubs;
   StreamSubscription<String>? langStreamSubs;
   @override
@@ -57,8 +59,8 @@ class _MyAppState extends State<MyApp> {
       theme: isLight == null
           ? ThemeData.light()
           : isLight!
-              ? ThemeData.light()
-              : ThemeData.dark(),
+              ? ThemeCustomData.lightTheme
+              : ThemeCustomData.darkTheme,
       localizationsDelegates: AppLocalizations.localizationsDelegates,
       supportedLocales: AppLocalizations.supportedLocales,
       locale: Locale(locale ?? 'tr'),
@@ -70,29 +72,3 @@ class _MyAppState extends State<MyApp> {
     );
   }
 }
-
-
-/*
-
-
- return BlocProvider(
-      create: (context) => ThemeCubit(),
-      child: BlocBuilder<ThemeCubit, ThemeData>(
-        builder: (context, state) {
-          return MaterialApp(
-            title: 'Flutter Demo',
-            debugShowCheckedModeBanner: false,
-            theme: state,
-            localizationsDelegates: AppLocalizations.localizationsDelegates,
-            supportedLocales: AppLocalizations.supportedLocales,
-            home: LocaleDatabaseHelper.i.isLoggedIn != null
-                ? LocaleDatabaseHelper.i.isLoggedIn!
-                    ? const Home()
-                    : const Login()
-                : const Login(),
-          );
-        },
-      ),
-    );
-
- */
