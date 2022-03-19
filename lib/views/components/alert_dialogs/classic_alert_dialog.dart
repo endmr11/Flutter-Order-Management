@@ -11,3 +11,19 @@ AlertDialog classicAlertDialog({required String? title, required List<Widget>? c
     actions: actions,
   );
 }
+
+AlertDialog loadingAlertDialog() {
+  return AlertDialog(
+    title: const Text("Yükleniyor"),
+    content: SingleChildScrollView(
+      child: ListBody(
+        children: const [
+          Center(
+            child: CircularProgressIndicator.adaptive(),
+          ),
+        ],
+      ),
+    ),
+    actions: const [],
+  );
+}

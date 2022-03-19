@@ -9,6 +9,7 @@ class LocaleDatabaseConstants {
   static String userSurnameKey = 'CURRENTSURNAME';
   static String userTokenKey = 'CURRENTTOKEN';
   static String userGroupKey = 'CURRENTGROUP';
+  static String userThemeKey = 'CURRENTTHEME';
 
   static String get getUserEmailKey => userEmailKey;
   static String get getUserLoggedInKey => userLoggedInKey;
@@ -17,4 +18,5 @@ class LocaleDatabaseConstants {
   static String get getUserSurnameKey => userSurnameKey;
   static String get getUserTokenKey => userTokenKey;
   static String get getUserGroupKey => userGroupKey;
+  static String get getUserThemeKey => userThemeKey;
 }

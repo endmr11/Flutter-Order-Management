@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:developer';
 
 import 'package:flutter_order_management/core/env/env_config.dart';
 import 'package:flutter_order_management/data/models/login_models/login_model.dart';
@@ -11,9 +12,10 @@ class APIService {
       'Content-Type': 'application/json',
     };
     var url = Uri.parse(EnvConfig.apiURL + EnvConfig.loginAPI);
-
     var response = await http.post(url, headers: requestHeaders, body: jsonEncode(model.toJson()));
-  print(loginResponseModelFromJson(response.body).status);
-    return loginResponseModelFromJson(response.body);
+    if (response.statusCode == 200) {
+      log(loginResponseModelFromJson(response.body).status.toString(), name: "TRUE:");
+      return loginResponseModelFromJson(response.body);
+    }
   }
 }

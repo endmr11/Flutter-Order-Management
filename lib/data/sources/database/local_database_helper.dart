@@ -11,39 +11,44 @@ class LocaleDatabaseHelper {
     _prefs = await SharedPreferences.getInstance();
   }
 
-  static String? get currentUserEmail => _prefs?.getString(LocaleDatabaseConstants.getUserEmailKey);
-  static bool? get isLoggedIn => _prefs?.getBool(LocaleDatabaseConstants.getUserLoggedInKey);
-  static int? get currentUserId => _prefs?.getInt(LocaleDatabaseConstants.getUserIdKey);
-  static String? get currentUserName => _prefs?.getString(LocaleDatabaseConstants.getUserNameKey);
-  static String? get currentUserSurname => _prefs?.getString(LocaleDatabaseConstants.getUserSurnameKey);
-  static String? get currentUserToken => _prefs?.getString(LocaleDatabaseConstants.getUserTokenKey);
-  static int? get currentUserGroup => _prefs?.getInt(LocaleDatabaseConstants.getUserGroupKey);
+  String? get currentUserEmail => _prefs?.getString(LocaleDatabaseConstants.getUserEmailKey);
+  bool? get isLoggedIn => _prefs?.getBool(LocaleDatabaseConstants.getUserLoggedInKey);
+  int? get currentUserId => _prefs?.getInt(LocaleDatabaseConstants.getUserIdKey);
+  String? get currentUserName => _prefs?.getString(LocaleDatabaseConstants.getUserNameKey);
+  String? get currentUserSurname => _prefs?.getString(LocaleDatabaseConstants.getUserSurnameKey);
+  String? get currentUserToken => _prefs?.getString(LocaleDatabaseConstants.getUserTokenKey);
+  int? get currentUserGroup => _prefs?.getInt(LocaleDatabaseConstants.getUserGroupKey);
+  bool? get isLight => _prefs?.getBool(LocaleDatabaseConstants.getUserThemeKey);
 
-  static void setCurrentUserEmail(String userEmail) {
+  void setCurrentUserEmail(String userEmail) {
     _prefs?.setString(LocaleDatabaseConstants.getUserEmailKey, userEmail);
   }
 
-  static void setCurrentUserLoggedIn(bool loggedIn) {
+  void setCurrentUserLoggedIn(bool loggedIn) {
     _prefs?.setBool(LocaleDatabaseConstants.getUserLoggedInKey, loggedIn);
   }
 
-  static void setCurrentUserId(int userId) {
+  void setCurrentUserId(int userId) {
     _prefs?.setInt(LocaleDatabaseConstants.getUserNameKey, userId);
   }
 
-  static void setCurrentUserName(String userName) {
+  void setCurrentUserName(String userName) {
     _prefs?.setString(LocaleDatabaseConstants.getUserNameKey, userName);
   }
 
-  static void setCurrentUserSurname(String userSurname) {
+  void setCurrentUserSurname(String userSurname) {
     _prefs?.setString(LocaleDatabaseConstants.getUserSurnameKey, userSurname);
   }
 
-  static void setCurrentUserToken(String token) {
+  void setCurrentUserToken(String token) {
     _prefs?.setString(LocaleDatabaseConstants.getUserTokenKey, token);
   }
 
-  static void setCurrentUserGroup(int userGroup) {
+  void setCurrentUserGroup(int userGroup) {
     _prefs?.setInt(LocaleDatabaseConstants.getUserGroupKey, userGroup);
+  }
+
+  void setCurrentUserTheme(bool isLight) {
+    _prefs?.setBool(LocaleDatabaseConstants.getUserThemeKey, isLight);
   }
 }

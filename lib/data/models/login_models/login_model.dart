@@ -19,13 +19,13 @@ class LoginResponseModel {
   int? status;
   String? message;
   String? path;
-  List<Model>? model;
+  List<Login>? model;
 
   factory LoginResponseModel.fromJson(Map<String, dynamic> json) => LoginResponseModel(
         status: json["status"],
         message: json["message"],
         path: json["path"],
-        model: json["model"] == null ? null : List<Model>.from(json["model"].map((x) => Model.fromJson(x))),
+        model: json["model"] == null ? null : List<Login>.from(json["model"].map((x) => Login.fromJson(x))),
       );
 
   Map<String, dynamic> toJson() => {
@@ -36,8 +36,8 @@ class LoginResponseModel {
       };
 }
 
-class Model {
-  Model({
+class Login {
+  Login({
     this.id,
     this.name,
     this.surname,
@@ -53,7 +53,7 @@ class Model {
   String? token;
   int? userType;
 
-  factory Model.fromJson(Map<String, dynamic> json) => Model(
+  factory Login.fromJson(Map<String, dynamic> json) => Login(
         id: json["id"],
         name: json["name"],
         surname: json["surname"],

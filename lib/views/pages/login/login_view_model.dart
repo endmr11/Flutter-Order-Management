@@ -1,4 +1,3 @@
-import 'dart:developer';
 
 import 'package:flutter/material.dart';
 
@@ -16,7 +15,6 @@ abstract class LoginViewModel extends State<Login> with LoginResources {
   }
 
   Future<void> login(String email, String password) async {
-    log(email + " " + password);
     loginBloc?.add(LoginProcessStart(email, password));
   }
 

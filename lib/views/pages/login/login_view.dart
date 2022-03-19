@@ -34,11 +34,14 @@ class LoginView extends LoginViewModel {
           bloc: loginBloc,
           listener: (context, state) {
             if (state is LoginProcessLoading) {
-              DialogManager.i.showSnacBar(context: context, text: 'LoginProcessLoading');
+              showLoadingDialog();
             } else if (state is LoginProcessSuccesful) {
+              Navigator.pop(context);
               DialogManager.i.showSnacBar(context: context, text: 'LoginProcessSuccesful');
             } else if (state is LoginProcessError) {
-              DialogManager.i.showSnacBar(context: context, text: 'LoginProcessError');
+              
+              Navigator.pop(context);
+              showErrorDialog();
             }
           },
           child: Center(
@@ -74,6 +77,27 @@ class LoginView extends LoginViewModel {
           ),
         ],
       ),
+    );
+  }
+
+  void showLoadingDialog() {
+    DialogManager.i.showLoadingAlertDialog(context: context);
+  }
+
+  void showErrorDialog() {
+    DialogManager.i.showClassicAlertDialog(
+      context: context,
+      buttonText: "Tamam",
+      content: [const Text("Hatalı Bilgi Girdiniz")],
+      title: "Hata",
+      actions: [
+        classicButton(
+          text: "Tamam",
+          customOnPressed: () {
+            Navigator.pop(context);
+          },
+        ),
+      ],
     );
   }
 }
