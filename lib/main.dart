@@ -54,7 +54,11 @@ class _MyAppState extends State<MyApp> {
     return MaterialApp(
       title: 'Flutter Demo',
       debugShowCheckedModeBanner: false,
-      theme: isLight! ? ThemeData.light() : ThemeData.dark(),
+      theme: isLight == null
+          ? ThemeData.light()
+          : isLight!
+              ? ThemeData.light()
+              : ThemeData.dark(),
       localizationsDelegates: AppLocalizations.localizationsDelegates,
       supportedLocales: AppLocalizations.supportedLocales,
       locale: Locale(locale ?? 'tr'),
