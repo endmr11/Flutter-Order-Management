@@ -1,6 +1,7 @@
 import 'dart:developer';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_order_management/data/models/product_models/product_model.dart';
 import 'package:flutter_order_management/data/sources/database/local_database_helper.dart';
 import 'package:flutter_order_management/views/pages/home/bloc/home_bloc.dart';
 import 'package:flutter_order_management/views/pages/home/home.dart';
@@ -9,10 +10,13 @@ import 'home_resources.dart';
 
 abstract class HomeViewModel extends State<Home> with HomeResources {
   HomeBloc? homeBloc;
+  List<ProductModel> allProducts = [];
+  bool? isLoading;
   @override
   void initState() {
     super.initState();
     homeBloc = HomeBloc();
+    homeBloc?.add(HomeProcessStart());
     logSession();
   }
 

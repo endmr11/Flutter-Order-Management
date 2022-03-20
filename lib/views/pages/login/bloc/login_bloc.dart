@@ -15,11 +15,14 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
   LoginBloc() : super(LoginInitialState()) {
     on(loginEventControl);
   }
+
+  final apiService = APIService();
+
   Future<void> loginEventControl(LoginEvent event, Emitter<LoginState> emit) async {
     if (event is LoginProcessStart) {
       log("EMAIL: ${event.email} & PASSWORD: ${event.password}", name: "EVENT: LoginProcessStart");
       emit(LoginProcessLoading());
-      LoginResponseModel? response = await APIService.login(LoginRequestModel(email: event.email, password: event.password));
+      LoginResponseModel? response = await apiService.login(LoginRequestModel(email: event.email, password: event.password));
       if (response != null) {
         setSession(response.model?.first);
         emit(LoginProcessSuccesful());

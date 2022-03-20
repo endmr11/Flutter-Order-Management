@@ -19,13 +19,13 @@ class OrderResponseModel {
   int? status;
   String? message;
   String? path;
-  List<Model>? model;
+  List<OrderModel>? model;
 
   factory OrderResponseModel.fromJson(Map<String, dynamic> json) => OrderResponseModel(
         status: json["status"],
         message: json["message"],
         path: json["path"],
-        model: json["model"] == null ? null : List<Model>.from(json["model"].map((x) => Model.fromJson(x))),
+        model: json["model"] == null ? null : List<OrderModel>.from(json["model"].map((x) => OrderModel.fromJson(x))),
       );
 
   Map<String, dynamic> toJson() => {
@@ -36,8 +36,8 @@ class OrderResponseModel {
       };
 }
 
-class Model {
-  Model({
+class OrderModel {
+  OrderModel({
     this.orderId,
     this.userId,
     this.products,
@@ -47,7 +47,7 @@ class Model {
   int? userId;
   List<Product>? products;
 
-  factory Model.fromJson(Map<String, dynamic> json) => Model(
+  factory OrderModel.fromJson(Map<String, dynamic> json) => OrderModel(
         orderId: json["order_id"],
         userId: json["user_id"],
         products: json["products"] == null ? null : List<Product>.from(json["products"].map((x) => Product.fromJson(x))),

@@ -11,7 +11,7 @@ import 'package:flutter_order_management/views/components/app_bars/classic_app_b
 import 'package:flutter_order_management/views/components/buttons/classic_button.dart';
 import 'package:flutter_order_management/views/components/spacer/spacer.dart';
 import 'package:flutter_order_management/views/components/text_form_fields/classic_text_form_field.dart';
-import 'package:flutter_order_management/views/pages/home/home.dart';
+import 'package:flutter_order_management/views/pages/page_management/page_management.dart';
 
 import 'bloc/login_bloc.dart';
 import 'login_view_model.dart';
@@ -68,7 +68,7 @@ class LoginView extends LoginViewModel {
               Navigator.pop(context);
               Navigator.pushReplacement(
                 context,
-                MaterialPageRoute(builder: (BuildContext context) => const Home()),
+                MaterialPageRoute(builder: (BuildContext context) => const PageManagement()),
               );
             } else if (state is LoginProcessError) {
               Navigator.pop(context);

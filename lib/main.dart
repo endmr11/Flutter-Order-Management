@@ -4,8 +4,8 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import 'package:flutter_order_management/views/pages/home/home.dart';
 import 'package:flutter_order_management/views/pages/login/login.dart';
+import 'package:flutter_order_management/views/pages/page_management/page_management.dart';
 
 import 'app_observer.dart';
 import 'core/services/temp_storage.dart';
@@ -68,7 +68,7 @@ class _MyAppState extends State<MyApp> {
       locale: Locale(locale ?? 'tr'),
       home: LocaleDatabaseHelper.i.isLoggedIn != null
           ? LocaleDatabaseHelper.i.isLoggedIn!
-              ? const Home()
+              ? const PageManagement()
               : const Login()
           : const Login(),
     );
