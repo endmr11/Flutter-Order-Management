@@ -31,7 +31,10 @@ class HomeView extends HomeViewModel {
               });
             } else if (state is HomeProcessError) {
               setState(() {
-                isLoading = false;
+                isLoading = true;
+                Future.delayed(const Duration(seconds: 2)).then((value) {
+                  homeBloc?.add(HomeProcessStart());
+                });
               });
             }
           },
@@ -43,7 +46,7 @@ class HomeView extends HomeViewModel {
                   padding: const EdgeInsets.all(8.0),
                   child: Column(
                     children: [
-                      Text("Hoşgeldiniz",style: Theme.of(context).textTheme.headline4),
+                      Text("Hoşgeldiniz", style: Theme.of(context).textTheme.headline4),
                       Expanded(
                         child: GridView.builder(
                           gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
