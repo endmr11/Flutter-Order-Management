@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_order_management/data/sources/database/local_database_helper.dart';
-import 'package:flutter_order_management/views/components/app_bars/classic_app_bar.dart';
 import 'package:flutter_order_management/views/components/buttons/classic_button.dart';
 import 'package:flutter_order_management/views/pages/login/login.dart';
 
@@ -12,7 +11,6 @@ class HomeView extends HomeViewModel {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: ClassicAppBar(title: title, centerTitle: true),
       body: MultiBlocProvider(
         providers: [
           BlocProvider(
@@ -45,6 +43,7 @@ class HomeView extends HomeViewModel {
                   padding: const EdgeInsets.all(8.0),
                   child: Column(
                     children: [
+                      Text("Hoşgeldiniz",style: Theme.of(context).textTheme.headline4),
                       Expanded(
                         child: GridView.builder(
                           gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(

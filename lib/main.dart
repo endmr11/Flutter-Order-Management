@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:io';
 
+import 'package:flex_color_scheme/flex_color_scheme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
@@ -10,7 +11,6 @@ import 'package:flutter_order_management/views/pages/page_management/page_manage
 import 'app_observer.dart';
 import 'core/services/temp_storage.dart';
 import 'data/sources/database/local_database_helper.dart';
-import 'views/themes/theme_data.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -52,17 +52,26 @@ class _MyAppState extends State<MyApp> {
   }
 
   @override
+  void dispose() {
+    super.dispose();
+    themeStreamSubs?.cancel();
+    langStreamSubs?.cancel();
+    TempStorage.themeDataController.close();
+    TempStorage.langDataController.close();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Flutter Demo',
       debugShowCheckedModeBanner: false,
-     theme: isLight == null
-          ? ThemeData.light()
+      themeMode: isLight == null
+          ? ThemeMode.light
           : isLight!
-              ? ThemeCustomData.lightTheme
-              : ThemeCustomData.darkTheme,
-  
-      themeMode: ThemeMode.system,
+              ? ThemeMode.light
+              : ThemeMode.dark,
+      theme: FlexColorScheme.light(scheme: FlexScheme.green).toTheme,
+      darkTheme: FlexColorScheme.dark(scheme: FlexScheme.green).toTheme,
       localizationsDelegates: AppLocalizations.localizationsDelegates,
       supportedLocales: AppLocalizations.supportedLocales,
       locale: Locale(locale ?? 'tr'),
