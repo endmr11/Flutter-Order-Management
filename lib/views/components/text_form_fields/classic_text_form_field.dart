@@ -1,7 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
-Widget classicTextFormField({required BuildContext context, required TextEditingController? controllerText, required String? dataText, Icon? icon,bool? obscureText}) {
+Widget classicTextFormField({
+  required BuildContext context,
+  required TextEditingController? controllerText,
+  required String? dataText,
+  Widget?  prefixIcon,
+  Widget?  suffixIcon,
+  bool? obscureText,
+}) {
   return TextFormField(
     validator: (value) {
       if (value == null || value.isEmpty) {
@@ -10,12 +17,12 @@ Widget classicTextFormField({required BuildContext context, required TextEditing
       return null;
     },
     controller: controllerText,
-    obscureText: obscureText??false,
+    obscureText: obscureText ?? false,
     decoration: InputDecoration(
-      prefixIcon: icon,
+      prefixIcon: prefixIcon,
       enabled: true,
       labelText: dataText,
-      suffixIcon: Icon(Icons.remove_red_eye)
+      suffixIcon: suffixIcon,
     ),
   );
 }

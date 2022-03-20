@@ -112,18 +112,28 @@ class LoginView extends LoginViewModel {
       child: Column(
         children: [
           classicTextFormField(
-            icon: const Icon(Icons.mail),
+            prefixIcon: const Icon(Icons.mail),
             controllerText: controllerEmail,
             dataText: AppLocalizations.of(context)!.email,
             context: context,
           ),
           classicSpacer(height: 50),
           classicTextFormField(
-            icon: const Icon(Icons.password),
+            prefixIcon: const Icon(Icons.password),
             controllerText: controllerPassword,
             dataText: AppLocalizations.of(context)!.password,
             context: context,
-            obscureText: true,
+            obscureText: showPassword ? false : true,
+            suffixIcon: IconButton(
+              onPressed: () {
+                setState(() {
+                  showPassword = !showPassword;
+                });
+              },
+              icon: Icon(
+                showPassword ? Icons.remove_red_eye_outlined : Icons.remove_red_eye,
+              ),
+            ),
           ),
           classicSpacer(height: 50),
           classicButton(
