@@ -36,6 +36,7 @@ dependencies:
   flutter_bloc: ^8.0.1
   flutter_localizations:
     sdk: flutter
+  flutter_slidable: ^1.2.0
   http: ^0.13.3
   intl: ^0.17.0
   shared_preferences: ^2.0.7

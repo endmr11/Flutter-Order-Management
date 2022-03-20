@@ -1,7 +1,3 @@
-// To parse this JSON data, do
-//
-//     final orderResponseModel = orderResponseModelFromJson(jsonString);
-
 import 'dart:convert';
 
 OrderResponseModel orderResponseModelFromJson(String str) => OrderResponseModel.fromJson(json.decode(str));
@@ -41,22 +37,30 @@ class OrderModel {
     this.orderId,
     this.userId,
     this.products,
+    this.userName,
+    this.userSurname,
   });
 
   int? orderId;
   int? userId;
   List<Product>? products;
+  String? userName;
+  String? userSurname;
 
   factory OrderModel.fromJson(Map<String, dynamic> json) => OrderModel(
         orderId: json["order_id"],
         userId: json["user_id"],
         products: json["products"] == null ? null : List<Product>.from(json["products"].map((x) => Product.fromJson(x))),
+        userName: json["user_name"],
+        userSurname: json["user_surname"],
       );
 
   Map<String, dynamic> toJson() => {
         "order_id": orderId,
         "user_id": userId,
         "products": products == null ? null : List<dynamic>.from(products!.map((x) => x.toJson())),
+        "user_name": userName,
+        "user_surname": userSurname,
       };
 }
 
