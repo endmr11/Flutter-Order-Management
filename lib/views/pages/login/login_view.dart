@@ -83,7 +83,7 @@ class LoginView extends LoginViewModel {
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: [
                   Image.asset(loginBannerUri),
-                  classicSpacer(height: 20),
+                  classicHeightSpacer(height: 20),
                   formBuilder(),
                 ],
               ),
@@ -117,7 +117,7 @@ class LoginView extends LoginViewModel {
             dataText: AppLocalizations.of(context)!.email,
             context: context,
           ),
-          classicSpacer(height: 50),
+          classicHeightSpacer(height: 50),
           classicTextFormField(
             prefixIcon: const Icon(Icons.password),
             controllerText: controllerPassword,
@@ -135,7 +135,7 @@ class LoginView extends LoginViewModel {
               ),
             ),
           ),
-          classicSpacer(height: 50),
+          classicHeightSpacer(height: 50),
           classicButton(
             text: AppLocalizations.of(context)!.login,
             customOnPressed: () {

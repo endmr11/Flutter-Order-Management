@@ -1,6 +1,7 @@
 import 'dart:developer';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_order_management/core/services/global_blocs/shopping_cart/bloc/shopping_cart_bloc.dart';
 import 'package:flutter_order_management/data/sources/database/local_database_helper.dart';
 import 'package:flutter_order_management/views/pages/home/bloc/home_bloc.dart';
 import 'package:flutter_order_management/views/pages/home/home.dart';
@@ -14,6 +15,7 @@ abstract class HomeViewModel extends State<Home> with HomeResources {
     super.initState();
     homeBloc = HomeBloc();
     homeBloc?.add(HomeProcessStart());
+    shoppingCartBloc = ShoppingCartBloc();
     logSession();
   }
 
@@ -21,6 +23,7 @@ abstract class HomeViewModel extends State<Home> with HomeResources {
   void dispose() {
     super.dispose();
     homeBloc?.close();
+    shoppingCartBloc?.close();
   }
 
   void logSession() {
