@@ -4,4 +4,5 @@ class EnvConfig{
   static const String loginEP = "/login";
   static const String allProductsEP = "/products/all-products";
   static const String allOrderssEP = "/orders/all-orders";
+  static const String orderCreateEP = "/orders/order-create";
 }

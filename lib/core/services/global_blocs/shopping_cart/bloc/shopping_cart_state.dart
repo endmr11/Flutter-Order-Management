@@ -17,3 +17,12 @@ class ShoppingCartAddedState extends ShoppingCartState {
   @override
   List<Object> get props => [UniqueKey(), product];
 }
+
+class ShoppingCartOrderLoading extends ShoppingCartState {}
+
+class ShoppingCartOrderSuccesful extends ShoppingCartState {
+  @override
+  List<Object> get props => [UniqueKey()];
+}
+
+class ShoppingCartOrderError extends ShoppingCartState {}

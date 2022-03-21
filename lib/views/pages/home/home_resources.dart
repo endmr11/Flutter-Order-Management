@@ -13,5 +13,6 @@ mixin HomeResources {
   int screenIndex = 0;
   List<ProductModel> cartProducts = [];
   List<int> cartProductCount = [];
-  List<OrderRequestModel> addOrderModel=[];
+  List<OrderProductModel> productList=[];
+
 }

@@ -84,10 +84,16 @@ class HomeView extends HomeViewModel {
                     DialogManager.i.showClassicAlertDialog(
                       context: context,
                       title: "Uyarı",
-                      content: [Text("Ürün zaten ekli. Sepetten ürünü çoğaltabilirsiniz!")],
-                      actions: [ElevatedButton(onPressed: () => Navigator.pop(context), child: Text("Ok"))],
+                      content: [const Text("Ürün zaten ekli. Sepetten ürünü çoğaltabilirsiniz!")],
+                      actions: [ElevatedButton(onPressed: () => Navigator.pop(context), child: const Text("Ok"))],
                     );
                   }
+                } else if (state is ShoppingCartOrderLoading) {
+                  print("AHA1");
+                } else if (state is ShoppingCartOrderSuccesful) {
+                  print("AHA2");
+                } else if (state is ShoppingCartOrderError) {
+                  print("AHA3");
                 }
               },
             ),
@@ -133,7 +139,7 @@ class HomeView extends HomeViewModel {
                                                       }
                                                     });
                                                   },
-                                                  icon: Icon(Icons.remove),
+                                                  icon: const Icon(Icons.remove),
                                                 ),
                                                 Text(cartProductCount[index].toString()),
                                                 IconButton(
@@ -142,7 +148,7 @@ class HomeView extends HomeViewModel {
                                                       cartProductCount[index] += 1;
                                                     });
                                                   },
-                                                  icon: Icon(Icons.add),
+                                                  icon: const Icon(Icons.add),
                                                 ),
                                               ],
                                             ),
@@ -154,22 +160,17 @@ class HomeView extends HomeViewModel {
                                   ElevatedButton(
                                     onPressed: () {
                                       for (int i = 0; i < cartProducts.length; i++) {
-                                        addOrderModel.add(
-                                          OrderRequestModel(
-                                            userId: LocaleDatabaseHelper.i.currentUserId,
-                                            products: [
-                                              OrderProductModel(
-                                                productId: cartProducts[i].productId,
-                                                count: cartProductCount[i],
-                                              )
-                                            ],
-                                          ),
-                                        );
+                                        productList.add(OrderProductModel(
+                                          count: cartProductCount[i],
+                                          productId: cartProducts[i].productId,
+                                        ));
                                       }
-                                      for (var element in addOrderModel) {
-                                        print("SİPARİŞŞŞ USER ID: ${element.userId}");
-                                        print("SİPARİŞŞŞ DETAY: ${element.products?.first.count}");
-                                      }
+                                      shoppingCartBloc?.add(ShoppingCartAddOrder(OrderRequestModel(
+                                        userId: LocaleDatabaseHelper.i.currentUserId,
+                                        products: productList,
+                                        userName: LocaleDatabaseHelper.i.currentUserName,
+                                        userSurname: LocaleDatabaseHelper.i.currentUserSurname,
+                                      )));
                                     },
                                     child: const Text("Sipariş Ver"),
                                   ),

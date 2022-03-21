@@ -5,6 +5,7 @@ import 'package:flutter_order_management/core/env/env_config.dart';
 import 'package:flutter_order_management/data/models/login_models/login_model.dart';
 import 'package:flutter_order_management/data/models/login_models/login_request_model.dart';
 import 'package:flutter_order_management/data/models/order_models/order_model.dart';
+import 'package:flutter_order_management/data/models/order_models/order_request_model.dart';
 import 'package:flutter_order_management/data/models/product_models/product_model.dart';
 import 'package:flutter_order_management/data/models/refresh_token_models/refresh_token_model.dart';
 import 'package:flutter_order_management/data/sources/database/local_database_helper.dart';
@@ -54,6 +55,24 @@ class APIService {
     }
     if (response.statusCode == 401) {
       log(response.statusCode.toString(), name: "API PATH:/orders/all-orders", error: "TOKEN EXPIRED");
+      _refreshToken();
+    }
+  }
+
+  Future<OrderResponseModel?> setOrder(OrderRequestModel? model) async {
+    Map<String, String> requestHeaders = {
+      'Content-Type': 'application/json',
+      'Authorization': 'Bearer ${LocaleDatabaseHelper.i.currentUserToken}',
+    };
+    var url = Uri.parse(EnvConfig.apiURL + EnvConfig.orderCreateEP);
+    var response = await http.post(url, headers: requestHeaders, body: jsonEncode(model));
+
+    if (response.statusCode == 200) {
+      log(response.statusCode.toString(), name: "API PATH:/orders/order-create");
+      return orderResponseModelFromJson(response.body);
+    }
+    if (response.statusCode == 401) {
+      log(response.statusCode.toString(), name: "API PATH:/orders/order-create", error: "TOKEN EXPIRED");
       _refreshToken();
     }
   }

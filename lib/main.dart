@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'dart:io';
 
 import 'package:flex_color_scheme/flex_color_scheme.dart';
 import 'package:flutter/material.dart';
@@ -7,6 +6,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_order_management/views/pages/login/login.dart';
 import 'package:flutter_order_management/views/pages/page_management/page_management.dart';
+import 'package:universal_io/io.dart';
 
 import 'app_observer.dart';
 import 'core/services/temp_storage.dart';

@@ -28,7 +28,6 @@ class OrderManagementView extends OrderManagementViewModel {
               setState(() {
                 isLoading = false;
                 allOrders = state.allOrders;
-                print(allOrders.length);
               });
             } else if (state is OrderManagementProcessError) {
               setState(() {

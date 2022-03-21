@@ -8,19 +8,27 @@ class OrderRequestModel {
   OrderRequestModel({
     this.userId,
     this.products,
+    this.userName,
+    this.userSurname,
   });
 
   int? userId;
   List<OrderProductModel>? products;
+  String? userName;
+  String? userSurname;
 
   factory OrderRequestModel.fromJson(Map<String, dynamic> json) => OrderRequestModel(
         userId: json["user_id"],
         products: json["products"] == null ? null : List<OrderProductModel>.from(json["products"].map((x) => OrderProductModel.fromJson(x))),
+        userName: json["user_name"],
+        userSurname: json["user_surname"],
       );
 
   Map<String, dynamic> toJson() => {
         "user_id": userId,
         "products": products == null ? null : List<dynamic>.from(products!.map((x) => x.toJson())),
+        "user_name": userName,
+        "user_surname": userSurname,
       };
 }
 
