@@ -2,6 +2,8 @@ import 'package:badges/badges.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_order_management/core/services/global_blocs/shopping_cart/bloc/shopping_cart_bloc.dart';
+import 'package:flutter_order_management/core/utils/widget/dialog_managers/dialog_manager.dart';
+import 'package:flutter_order_management/data/models/order_models/order_request_model.dart';
 import 'package:flutter_order_management/data/sources/database/local_database_helper.dart';
 import 'package:flutter_order_management/views/components/buttons/classic_button.dart';
 import 'package:flutter_order_management/views/pages/login/login.dart';
@@ -13,6 +15,28 @@ class HomeView extends HomeViewModel {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        title: Text("DEGrocery"),
+        centerTitle: true,
+      ),
+      drawer: Drawer(
+        child: Column(
+          children: [
+            classicButton(
+              text: "Çık",
+              customOnPressed: () async {
+                await LocaleDatabaseHelper.i.userSessionClear();
+                Navigator.pushReplacement(
+                  context,
+                  MaterialPageRoute(
+                    builder: (BuildContext context) => const Login(),
+                  ),
+                );
+              },
+            ),
+          ],
+        ),
+      ),
       body: MultiBlocProvider(
         providers: [
           BlocProvider(
@@ -50,9 +74,19 @@ class HomeView extends HomeViewModel {
               bloc: shoppingCartBloc,
               listener: (context, state) {
                 if (state is ShoppingCartAddedState) {
-                  setState(() {
-                    cartProducts.add(state.product);
-                  });
+                  if (!cartProducts.contains(state.product)) {
+                    setState(() {
+                      cartProductCount.add(1);
+                      cartProducts.add(state.product);
+                    });
+                  } else {
+                    DialogManager.i.showClassicAlertDialog(
+                      context: context,
+                      title: "Uyarı",
+                      content: [Text("Ürün zaten ekli. Sepetten ürünü çoğaltabilirsiniz!")],
+                      actions: [ElevatedButton(onPressed: () => Navigator.pop(context), child: Text("Ok"))],
+                    );
+                  }
                 }
               },
             ),
@@ -67,7 +101,80 @@ class HomeView extends HomeViewModel {
                     children: [
                       Text("Hoşgeldiniz", style: Theme.of(context).textTheme.headline4),
                       screenIndex != 0
-                          ? Expanded(child: Text("data"))
+                          ? Expanded(
+                              child: Column(
+                                children: [
+                                  Expanded(
+                                    child: ListView.builder(
+                                      itemCount: cartProducts.length,
+                                      itemBuilder: (context, index) {
+                                        return Row(
+                                          children: [
+                                            Expanded(
+                                              child: ListTile(
+                                                leading: CircleAvatar(
+                                                  backgroundColor: Colors.transparent,
+                                                  child: Image.asset('assets/${cartProducts[index].productUrl}.png'),
+                                                ),
+                                                title: Text("${cartProducts[index].productName} ${cartProducts[index].productPrice}"),
+                                                subtitle: Text(cartProducts[index].productDesc ?? ""),
+                                              ),
+                                            ),
+                                            Row(
+                                              children: [
+                                                IconButton(
+                                                  onPressed: () {
+                                                    setState(() {
+                                                      if (cartProductCount[index] != 1) {
+                                                        cartProductCount[index] -= 1;
+                                                      } else {
+                                                        cartProducts.remove(cartProducts[index]);
+                                                      }
+                                                    });
+                                                  },
+                                                  icon: Icon(Icons.remove),
+                                                ),
+                                                Text(cartProductCount[index].toString()),
+                                                IconButton(
+                                                  onPressed: () {
+                                                    setState(() {
+                                                      cartProductCount[index] += 1;
+                                                    });
+                                                  },
+                                                  icon: Icon(Icons.add),
+                                                ),
+                                              ],
+                                            ),
+                                          ],
+                                        );
+                                      },
+                                    ),
+                                  ),
+                                  ElevatedButton(
+                                    onPressed: () {
+                                      for (int i = 0; i < cartProducts.length; i++) {
+                                        addOrderModel.add(
+                                          OrderRequestModel(
+                                            userId: LocaleDatabaseHelper.i.currentUserId,
+                                            products: [
+                                              OrderProductModel(
+                                                productId: cartProducts[i].productId,
+                                                count: cartProductCount[i],
+                                              )
+                                            ],
+                                          ),
+                                        );
+                                      }
+                                      for (var element in addOrderModel) {
+                                        print("SİPARİŞŞŞ USER ID: ${element.userId}");
+                                        print("SİPARİŞŞŞ DETAY: ${element.products?.first.count}");
+                                      }
+                                    },
+                                    child: const Text("Sipariş Ver"),
+                                  ),
+                                ],
+                              ),
+                            )
                           : Expanded(
                               child: GridView.builder(
                                 gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
@@ -136,12 +243,13 @@ class HomeView extends HomeViewModel {
                               child: Padding(
                                 padding: const EdgeInsets.symmetric(horizontal: 8.0),
                                 child: TextButton(
+                                  style: ButtonStyle(backgroundColor: (screenIndex == 0) ? MaterialStateProperty.all(Colors.green) : null),
                                   onPressed: () {
                                     setState(() {
                                       screenIndex = 0;
                                     });
                                   },
-                                  child: const Icon(Icons.home),
+                                  child: Icon(Icons.home, color: (screenIndex == 0) ? Colors.white : null),
                                 ),
                               ),
                             ),
@@ -149,33 +257,25 @@ class HomeView extends HomeViewModel {
                               child: Padding(
                                 padding: const EdgeInsets.symmetric(horizontal: 8.0),
                                 child: TextButton(
+                                  style: ButtonStyle(backgroundColor: (screenIndex == 1) ? MaterialStateProperty.all(Colors.green) : null),
                                   onPressed: () {
                                     setState(() {
                                       screenIndex = 1;
                                     });
                                   },
                                   child: Badge(
-                                    badgeContent: Text(cartProducts.length.toString()),
+                                    badgeContent: Text(
+                                      cartProducts.length.toString(),
+                                      style: const TextStyle(color: Colors.white),
+                                    ),
                                     badgeColor: Colors.green,
-                                    child: const Icon(Icons.shopping_cart),
+                                    child: Icon(Icons.shopping_cart, color: (screenIndex == 1) ? Colors.white : null),
                                   ),
                                 ),
                               ),
                             ),
                           ],
                         ),
-                      ),
-                      classicButton(
-                        text: "Çık",
-                        customOnPressed: () async {
-                          await LocaleDatabaseHelper.i.userSessionClear();
-                          Navigator.pushReplacement(
-                            context,
-                            MaterialPageRoute(
-                              builder: (BuildContext context) => const Login(),
-                            ),
-                          );
-                        },
                       ),
                     ],
                   ),

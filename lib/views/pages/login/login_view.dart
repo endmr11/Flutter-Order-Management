@@ -158,7 +158,6 @@ class LoginView extends LoginViewModel {
   void showErrorDialog() {
     DialogManager.i.showClassicAlertDialog(
       context: context,
-      buttonText: "Tamam",
       content: [const Text("Hatalı Bilgi Girdiniz")],
       title: "Hata",
       actions: [

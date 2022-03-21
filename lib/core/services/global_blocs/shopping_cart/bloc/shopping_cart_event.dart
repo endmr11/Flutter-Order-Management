@@ -4,7 +4,7 @@ abstract class ShoppingCartEvent extends Equatable {
   const ShoppingCartEvent();
 
   @override
-  List<Object> get props => [];
+  List<Object> get props => [UniqueKey()];
 }
 
 class ShoppingCartAddEvent extends ShoppingCartEvent {

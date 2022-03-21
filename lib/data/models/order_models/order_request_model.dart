@@ -11,11 +11,11 @@ class OrderRequestModel {
   });
 
   int? userId;
-  List<Product>? products;
+  List<OrderProductModel>? products;
 
   factory OrderRequestModel.fromJson(Map<String, dynamic> json) => OrderRequestModel(
         userId: json["user_id"],
-        products: json["products"] == null ? null : List<Product>.from(json["products"].map((x) => Product.fromJson(x))),
+        products: json["products"] == null ? null : List<OrderProductModel>.from(json["products"].map((x) => OrderProductModel.fromJson(x))),
       );
 
   Map<String, dynamic> toJson() => {
@@ -24,8 +24,8 @@ class OrderRequestModel {
       };
 }
 
-class Product {
-  Product({
+class OrderProductModel {
+  OrderProductModel({
     this.productId,
     this.count,
   });
@@ -33,7 +33,7 @@ class Product {
   int? productId;
   int? count;
 
-  factory Product.fromJson(Map<String, dynamic> json) => Product(
+  factory OrderProductModel.fromJson(Map<String, dynamic> json) => OrderProductModel(
         productId: json["product_id"],
         count: json["count"],
       );

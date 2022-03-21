@@ -15,7 +15,6 @@ class DialogManager {
   Future<void> showClassicAlertDialog({
     required BuildContext context,
     required String? title,
-    required String? buttonText,
     required List<Widget>? content,
     required List<Widget>? actions,
   }) async {

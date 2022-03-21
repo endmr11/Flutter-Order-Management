@@ -15,5 +15,5 @@ class ShoppingCartAddedState extends ShoppingCartState {
   const ShoppingCartAddedState(this.product);
 
   @override
-  List<Object> get props => [product];
+  List<Object> get props => [UniqueKey(), product];
 }
