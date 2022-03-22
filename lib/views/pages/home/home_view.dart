@@ -20,24 +20,7 @@ class HomeView extends HomeViewModel {
         title: Text(AppLocalizations.of(context)!.appTitle),
         centerTitle: true,
       ),
-      drawer: Drawer(
-        child: Column(
-          children: [
-            classicButton(
-              text: "Çık",
-              customOnPressed: () async {
-                await LocaleDatabaseHelper.i.userSessionClear();
-                Navigator.pushReplacement(
-                  context,
-                  MaterialPageRoute(
-                    builder: (BuildContext context) => const Login(),
-                  ),
-                );
-              },
-            ),
-          ],
-        ),
-      ),
+      drawer: const CustomDrawer(),
       body: MultiBlocProvider(
         providers: [
           BlocProvider(
@@ -105,79 +88,84 @@ class HomeView extends HomeViewModel {
             ),
           ],
           child: isLoading ?? true
-              ? const Center(
-                  child: CircularProgressIndicator.adaptive(),
-                )
+              ? const Center(child: CircularProgressIndicator.adaptive())
               : Padding(
                   padding: const EdgeInsets.all(8.0),
                   child: Column(
                     children: [
-                      Text("Hoşgeldiniz", style: Theme.of(context).textTheme.headline4),
+                      const Icon(Icons.shopping_cart, size: 40, color: Colors.green),
                       screenIndex != 0
                           ? Expanded(
                               child: Column(
                                 children: [
                                   Expanded(
-                                    child: ListView.builder(
-                                      itemCount: cartProducts.length,
-                                      itemBuilder: (context, index) {
-                                        return Row(
-                                          children: [
-                                            Expanded(
-                                              child: ListTile(
-                                                leading: CircleAvatar(
-                                                  backgroundColor: Colors.transparent,
-                                                  child: Image.asset('assets/${cartProducts[index].productUrl}.png'),
-                                                ),
-                                                title: Text("${cartProducts[index].productName} ${cartProducts[index].productPrice}"),
-                                                subtitle: Text(cartProducts[index].productDesc ?? ""),
-                                              ),
-                                            ),
-                                            Row(
-                                              children: [
-                                                IconButton(
-                                                  onPressed: () {
-                                                    setState(() {
-                                                      if (cartProductCount[index] != 1) {
-                                                        cartProductCount[index] -= 1;
-                                                      } else {
-                                                        cartProducts.remove(cartProducts[index]);
-                                                      }
-                                                    });
-                                                  },
-                                                  icon: const Icon(Icons.remove),
-                                                ),
-                                                Text(cartProductCount[index].toString()),
-                                                IconButton(
-                                                  onPressed: () {
-                                                    setState(() {
-                                                      cartProductCount[index] += 1;
-                                                    });
-                                                  },
-                                                  icon: const Icon(Icons.add),
-                                                ),
-                                              ],
-                                            ),
-                                          ],
-                                        );
-                                      },
-                                    ),
+                                    child: cartProducts.isEmpty
+                                        ? Text(
+                                            "Sepetinizde ürün bulunmamaktadır.",
+                                            style: Theme.of(context).textTheme.headline6,
+                                          )
+                                        : ListView.builder(
+                                            itemCount: cartProducts.length,
+                                            itemBuilder: (context, index) {
+                                              return Row(
+                                                children: [
+                                                  Expanded(
+                                                    child: ListTile(
+                                                      leading: CircleAvatar(
+                                                        backgroundColor: Colors.transparent,
+                                                        child: Image.asset('assets/${cartProducts[index].productUrl}.png'),
+                                                      ),
+                                                      title: Text("${cartProducts[index].productName} ${cartProducts[index].productPrice}"),
+                                                      subtitle: Text(cartProducts[index].productDesc ?? ""),
+                                                    ),
+                                                  ),
+                                                  Row(
+                                                    children: [
+                                                      IconButton(
+                                                        onPressed: () {
+                                                          setState(() {
+                                                            if (cartProductCount[index] != 1) {
+                                                              cartProductCount[index] -= 1;
+                                                            } else {
+                                                              cartProducts.remove(cartProducts[index]);
+                                                            }
+                                                          });
+                                                        },
+                                                        icon: const Icon(Icons.remove),
+                                                      ),
+                                                      Text(cartProductCount[index].toString()),
+                                                      IconButton(
+                                                        onPressed: () {
+                                                          setState(() {
+                                                            cartProductCount[index] += 1;
+                                                          });
+                                                        },
+                                                        icon: const Icon(Icons.add),
+                                                      ),
+                                                    ],
+                                                  ),
+                                                ],
+                                              );
+                                            },
+                                          ),
                                   ),
                                   ElevatedButton(
-                                    onPressed: () {
-                                      for (int i = 0; i < cartProducts.length; i++) {
-                                        productList.add(OrderProductModel(
-                                          count: cartProductCount[i],
-                                          productId: cartProducts[i].productId,
-                                        ));
-                                      }
-                                      shoppingCartBloc?.add(ShoppingCartAddOrder(OrderRequestModel(
-                                        userId: LocaleDatabaseHelper.i.currentUserId,
-                                        products: productList,
-                                        userName: LocaleDatabaseHelper.i.currentUserName,
-                                        userSurname: LocaleDatabaseHelper.i.currentUserSurname,
-                                      )));
-                                    },
+                                    onPressed: cartProducts.isEmpty
+                                        ? null
+                                        : () {
+                                            for (int i = 0; i < cartProducts.length; i++) {
+                                              productList.add(OrderProductModel(
+                                                count: cartProductCount[i],
+                                                productId: cartProducts[i].productId,
+                                              ));
+                                            }
+                                            shoppingCartBloc?.add(ShoppingCartAddOrder(OrderRequestModel(
+                                              userId: LocaleDatabaseHelper.i.currentUserId,
+                                              products: productList,
+                                              userName: LocaleDatabaseHelper.i.currentUserName,
+                                              userSurname: LocaleDatabaseHelper.i.currentUserSurname,
+                                            )));
+                                          },
                                     child: const Text("Sipariş Ver"),
                                   ),
                                 ],
@@ -318,6 +306,41 @@ class HomeView extends HomeViewModel {
           },
         ),
       ],
+    );
+  }
+}
+
+class CustomDrawer extends StatelessWidget {
+  const CustomDrawer({
+    Key? key,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Drawer(
+      child: Column(
+        children: [
+          const CircleAvatar(
+            child: Icon(Icons.person),
+          ),
+          TextButton(
+            onPressed: () async {},
+            child: const Text("Siparişlerim"),
+          ),
+          TextButton(
+            onPressed: () async {
+              await LocaleDatabaseHelper.i.userSessionClear();
+              Navigator.pushReplacement(
+                context,
+                MaterialPageRoute(
+                  builder: (BuildContext context) => const Login(),
+                ),
+              );
+            },
+            child: const Text("Çık"),
+          ),
+        ],
+      ),
     );
   }
 }

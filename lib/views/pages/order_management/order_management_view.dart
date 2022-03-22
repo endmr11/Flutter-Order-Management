@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_order_management/data/models/order_models/order_model.dart';
 import 'package:flutter_order_management/data/sources/database/local_database_helper.dart';
 import 'package:flutter_order_management/views/pages/login/login.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
@@ -69,6 +70,7 @@ class OrderManagementView extends OrderManagementViewModel {
                               title: Text(
                                 allOrders[index].userName ?? "",
                               ),
+                              trailing: Text("${priceCalculate(allOrders[index].products)}₺"),
                               onTap: () {},
                             ),
                           );
@@ -92,6 +94,14 @@ class OrderManagementView extends OrderManagementViewModel {
         ),
       ),
     );
+  }
+
+  String priceCalculate(List<Product>? products) {
+
+    products?.forEach((element) {
+      print(">>>>  ${element.count}");
+    });
+    return "";
   }
 }
 
