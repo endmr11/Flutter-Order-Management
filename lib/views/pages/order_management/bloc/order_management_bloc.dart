@@ -1,7 +1,10 @@
+import 'dart:developer';
+
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_order_management/data/models/order_models/order_model.dart';
+import 'package:flutter_order_management/data/models/product_models/product_model.dart';
 import 'package:flutter_order_management/data/sources/api/api_service.dart';
 
 part 'order_management_event.dart';
@@ -17,10 +20,14 @@ class OrderManagementBloc extends Bloc<OrderManagementEvent, OrderManagementStat
   Future<void> orderManagementEventControl(OrderManagementEvent event, Emitter<OrderManagementState> emit) async {
     if (event is OrderManagementProcessStart) {
       emit(OrderManagementProcessLoading());
-      OrderResponseModel? response = await apiService.getAllOrders();
-      if (response != null) {
-        emit(OrderManagementProcessSuccesful(response.model!));
-      } else {
+      OrderResponseModel? orderResponse = await apiService.getAllOrders();
+      ProductResponseModel? productResponse = await apiService.getAllProducts();
+      try {
+        if (orderResponse != null && productResponse != null) {
+          emit(OrderManagementProcessSuccesful(orderResponse.model!, productResponse.model!));
+        }
+      } catch (e) {
+        log(e.toString(), error: "OrderManagementProcessError");
         emit(OrderManagementProcessError());
       }
     }

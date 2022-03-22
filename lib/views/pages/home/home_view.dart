@@ -164,6 +164,7 @@ class HomeView extends HomeViewModel {
                                               products: productList,
                                               userName: LocaleDatabaseHelper.i.currentUserName,
                                               userSurname: LocaleDatabaseHelper.i.currentUserSurname,
+                                              orderStatus: 0,
                                             )));
                                           },
                                     child: const Text("Sipariş Ver"),

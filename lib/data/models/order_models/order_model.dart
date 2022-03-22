@@ -39,6 +39,7 @@ class OrderModel {
     this.products,
     this.userName,
     this.userSurname,
+    this.orderStatus,
   });
 
   int? orderId;
@@ -46,6 +47,7 @@ class OrderModel {
   List<Product>? products;
   String? userName;
   String? userSurname;
+  int? orderStatus;
 
   factory OrderModel.fromJson(Map<String, dynamic> json) => OrderModel(
         orderId: json["order_id"],
@@ -53,6 +55,7 @@ class OrderModel {
         products: json["products"] == null ? null : List<Product>.from(json["products"].map((x) => Product.fromJson(x))),
         userName: json["user_name"],
         userSurname: json["user_surname"],
+        orderStatus: json["order_status"],
       );
 
   Map<String, dynamic> toJson() => {
@@ -61,6 +64,7 @@ class OrderModel {
         "products": products == null ? null : List<dynamic>.from(products!.map((x) => x.toJson())),
         "user_name": userName,
         "user_surname": userSurname,
+        "order_status": orderStatus,
       };
 }
 

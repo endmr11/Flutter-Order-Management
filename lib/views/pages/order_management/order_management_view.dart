@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_order_management/data/models/order_models/order_model.dart';
+import 'package:flutter_order_management/data/models/product_models/product_model.dart';
 import 'package:flutter_order_management/data/sources/database/local_database_helper.dart';
 import 'package:flutter_order_management/views/pages/login/login.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
@@ -29,6 +30,7 @@ class OrderManagementView extends OrderManagementViewModel {
               setState(() {
                 isLoading = false;
                 allOrders = state.allOrders;
+                allProducts = state.allProducts;
               });
             } else if (state is OrderManagementProcessError) {
               setState(() {
@@ -96,12 +98,14 @@ class OrderManagementView extends OrderManagementViewModel {
     );
   }
 
-  String priceCalculate(List<Product>? products) {
-
+  String? priceCalculate(List<Product>? products) {
+    int price = 0;
     products?.forEach((element) {
-      print(">>>>  ${element.count}");
+      ProductModel tempProduct = allProducts.firstWhere((val) => val.productId == element.productId);
+      price += tempProduct.productPrice! * (element.count!);
+
     });
-    return "";
+    return price.toString();
   }
 }
 
