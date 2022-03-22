@@ -89,11 +89,17 @@ class HomeView extends HomeViewModel {
                     );
                   }
                 } else if (state is ShoppingCartOrderLoading) {
-                  print("AHA1");
+                  showLoadingDialog();
                 } else if (state is ShoppingCartOrderSuccesful) {
-                  print("AHA2");
+                  Navigator.pop(context);
+                  showSuccessfulDialog();
+                  setState(() {
+                    cartProducts.clear();
+                    screenIndex = 0;
+                  });
                 } else if (state is ShoppingCartOrderError) {
-                  print("AHA3");
+                  Navigator.pop(context);
+                  showErrorDialog();
                 }
               },
             ),
@@ -284,6 +290,34 @@ class HomeView extends HomeViewModel {
                 ),
         ),
       ),
+    );
+  }
+
+  void showSuccessfulDialog() {
+    DialogManager.i.showClassicAlertDialog(
+        context: context,
+        title: "Başarılı",
+        content: [const Text("Sipariş başarılı bir şekilde oluşturuldu.")],
+        actions: [ElevatedButton(onPressed: () => Navigator.pop(context), child: const Text("Tamam"))]);
+  }
+
+  void showLoadingDialog() {
+    DialogManager.i.showLoadingAlertDialog(context: context);
+  }
+
+  void showErrorDialog() {
+    DialogManager.i.showClassicAlertDialog(
+      context: context,
+      content: [const Text("Hatalı Bilgi Girdiniz")],
+      title: "Hata",
+      actions: [
+        classicButton(
+          text: "Tamam",
+          customOnPressed: () {
+            Navigator.pop(context);
+          },
+        ),
+      ],
     );
   }
 }

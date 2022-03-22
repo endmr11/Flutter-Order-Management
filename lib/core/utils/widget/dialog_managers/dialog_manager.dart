@@ -24,7 +24,7 @@ class DialogManager {
       builder: (BuildContext context) {
         return classicAlertDialog(
           title: title,
-          content: [const Text("Hatalı Bilgi Girdiniz!")],
+          content: content ?? [const Text("Hatalı Bilgi Girdiniz!")],
           actions: actions ?? [],
         );
       },
