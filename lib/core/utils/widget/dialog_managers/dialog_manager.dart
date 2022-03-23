@@ -31,6 +31,30 @@ class DialogManager {
     );
   }
 
+  Future<void> showCartViewAlertDialog({
+    required BuildContext context,
+    required String? title,
+    required List<Widget>? content,
+    required List<Widget>? actions,
+    required String? totalPrice,
+  }) async {
+    return showDialog<void>(
+      context: context,
+      barrierDismissible: true,
+      builder: (BuildContext context) {
+        return Column(
+          children: [
+            Expanded(
+              child: cartViewAlertDialog(title, content, totalPrice),
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+ 
+
   Future<void> showLoadingAlertDialog({
     required BuildContext context,
   }) async {

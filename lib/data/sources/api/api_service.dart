@@ -32,11 +32,11 @@ class APIService {
     var url = Uri.parse(EnvConfig.apiURL + EnvConfig.allProductsEP);
     var response = await http.get(url, headers: requestHeaders);
     if (response.statusCode == 200) {
-      log(response.statusCode.toString(), name: "API PATH:/products/all-products");
+      log(response.statusCode.toString(), name: "API PATH:${EnvConfig.allProductsEP}");
       return productResponseModelFromJson(response.body);
     }
     if (response.statusCode == 401) {
-      log(response.statusCode.toString(), name: "API PATH:/products/all-products", error: "TOKEN EXPIRED");
+      log(response.statusCode.toString(), name: "API PATH:${EnvConfig.allProductsEP}", error: "TOKEN EXPIRED");
       _refreshToken();
     }
   }
@@ -46,15 +46,15 @@ class APIService {
       'Content-Type': 'application/json',
       'Authorization': 'Bearer ${LocaleDatabaseHelper.i.currentUserToken}',
     };
-    var url = Uri.parse(EnvConfig.apiURL + EnvConfig.allOrderssEP);
+    var url = Uri.parse(EnvConfig.apiURL + EnvConfig.allOrdersEP);
     var response = await http.get(url, headers: requestHeaders);
 
     if (response.statusCode == 200) {
-      log(response.statusCode.toString(), name: "API PATH:/orders/all-orders");
+      log(response.statusCode.toString(), name: "API PATH:${EnvConfig.allOrdersEP}");
       return orderResponseModelFromJson(response.body);
     }
     if (response.statusCode == 401) {
-      log(response.statusCode.toString(), name: "API PATH:/orders/all-orders", error: "TOKEN EXPIRED");
+      log(response.statusCode.toString(), name: "API PATH:${EnvConfig.allOrdersEP}", error: "TOKEN EXPIRED");
       _refreshToken();
     }
   }
@@ -68,11 +68,28 @@ class APIService {
     var response = await http.post(url, headers: requestHeaders, body: jsonEncode(model));
 
     if (response.statusCode == 200) {
-      log(response.statusCode.toString(), name: "API PATH:/orders/order-create");
+      log(response.statusCode.toString(), name: "API PATH:${EnvConfig.orderCreateEP}");
       return orderResponseModelFromJson(response.body);
     }
     if (response.statusCode == 401) {
-      log(response.statusCode.toString(), name: "API PATH:/orders/order-create", error: "TOKEN EXPIRED");
+      log(response.statusCode.toString(), name: "API PATH:${EnvConfig.orderCreateEP}", error: "TOKEN EXPIRED");
+      _refreshToken();
+    }
+  }
+
+  Future<OrderResponseModel?> updateOrder(OrderRequestModel? model, String orderId) async {
+    Map<String, String> requestHeaders = {
+      'Content-Type': 'application/json',
+      'Authorization': 'Bearer ${LocaleDatabaseHelper.i.currentUserToken}',
+    };
+    var url = Uri.parse(EnvConfig.apiURL + EnvConfig.orderUpdateEP + orderId);
+    var response = await http.put(url, headers: requestHeaders, body: jsonEncode(model));
+    if (response.statusCode == 200) {
+      log(response.statusCode.toString(), name: "API PATH:${EnvConfig.orderUpdateEP + orderId}");
+      return orderResponseModelFromJson(response.body);
+    }
+    if (response.statusCode == 401) {
+      log(response.statusCode.toString(), name: "API PATH:${EnvConfig.orderUpdateEP + orderId}", error: "TOKEN EXPIRED");
       _refreshToken();
     }
   }
@@ -84,7 +101,7 @@ class APIService {
     var url = Uri.parse(EnvConfig.apiURL + EnvConfig.refreshTokenEP);
     var response = await http.post(url, headers: requestHeaders, body: jsonEncode({"email": LocaleDatabaseHelper.i.currentUserEmail}));
     if (response.statusCode == 200) {
-      log(response.statusCode.toString(), name: "API PATH:/refresh/token");
+      log(response.statusCode.toString(), name: "API PATH:/${EnvConfig.refreshTokenEP}");
       var newToken = refreshTokenModelFromJson(response.body).model?.first.token;
       LocaleDatabaseHelper.i.setCurrentUserToken(newToken);
     }

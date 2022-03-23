@@ -4,6 +4,7 @@ import 'package:flex_color_scheme/flex_color_scheme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:flutter_order_management/core/services/socket/socket_config.dart';
 import 'package:flutter_order_management/views/pages/login/login.dart';
 import 'package:flutter_order_management/views/pages/page_management/page_management.dart';
 import 'package:universal_io/io.dart';
@@ -15,6 +16,7 @@ import 'data/sources/database/local_database_helper.dart';
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await LocaleDatabaseHelper.i.initLocalDatabase();
+  await SocketConfig.i.initSocket();
   BlocOverrides.runZoned(
     () => runApp(const MyApp()),
     blocObserver: MyAppObserver(),
@@ -58,6 +60,7 @@ class _MyAppState extends State<MyApp> {
     langStreamSubs?.cancel();
     TempStorage.themeDataController.close();
     TempStorage.langDataController.close();
+    SocketConfig.i.closeSocket();
   }
 
   @override

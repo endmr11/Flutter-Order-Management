@@ -7,4 +7,14 @@ abstract class OrderManagementEvent extends Equatable {
   List<Object> get props => [UniqueKey()];
 }
 
-class OrderManagementProcessStart extends OrderManagementEvent {}
+class OrderManagementProcessStartEvent extends OrderManagementEvent {}
+
+class OrderManagementUpdateEvent extends OrderManagementEvent {
+  final String orderId;
+  final OrderRequestModel orderRequestModel;
+
+  const OrderManagementUpdateEvent(this.orderRequestModel,this.orderId);
+
+  @override
+  List<Object> get props => [UniqueKey(), orderRequestModel,orderId];
+}
