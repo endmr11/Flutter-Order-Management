@@ -59,6 +59,24 @@ class APIService {
     }
   }
 
+  Future<OrderResponseModel?> getMyOrders(String userId) async {
+    Map<String, String> requestHeaders = {
+      'Content-Type': 'application/json',
+      'Authorization': 'Bearer ${LocaleDatabaseHelper.i.currentUserToken}',
+    };
+    var url = Uri.parse(EnvConfig.apiURL + EnvConfig.myOrdersEP + userId);
+    var response = await http.get(url, headers: requestHeaders);
+
+    if (response.statusCode == 200) {
+      log(response.statusCode.toString(), name: "API PATH:${EnvConfig.myOrdersEP}");
+      return orderResponseModelFromJson(response.body);
+    }
+    if (response.statusCode == 401) {
+      log(response.statusCode.toString(), name: "API PATH:${EnvConfig.myOrdersEP}", error: "TOKEN EXPIRED");
+      _refreshToken();
+    }
+  }
+
   Future<OrderResponseModel?> setOrder(OrderRequestModel? model) async {
     Map<String, String> requestHeaders = {
       'Content-Type': 'application/json',
@@ -66,7 +84,6 @@ class APIService {
     };
     var url = Uri.parse(EnvConfig.apiURL + EnvConfig.orderCreateEP);
     var response = await http.post(url, headers: requestHeaders, body: jsonEncode(model));
-
     if (response.statusCode == 200) {
       log(response.statusCode.toString(), name: "API PATH:${EnvConfig.orderCreateEP}");
       return orderResponseModelFromJson(response.body);

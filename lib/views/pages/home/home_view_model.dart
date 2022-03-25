@@ -9,7 +9,6 @@ import 'package:flutter_order_management/views/pages/home/home.dart';
 import 'home_resources.dart';
 
 abstract class HomeViewModel extends State<Home> with HomeResources {
-
   @override
   void initState() {
     super.initState();

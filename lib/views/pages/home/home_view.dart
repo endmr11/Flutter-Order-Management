@@ -8,6 +8,7 @@ import 'package:flutter_order_management/data/models/order_models/order_request_
 import 'package:flutter_order_management/data/sources/database/local_database_helper.dart';
 import 'package:flutter_order_management/views/components/buttons/classic_button.dart';
 import 'package:flutter_order_management/views/pages/login/login.dart';
+import 'package:flutter_order_management/views/pages/my_orders/my_orders.dart';
 
 import 'bloc/home_bloc.dart';
 import 'home_view_model.dart';
@@ -325,7 +326,10 @@ class CustomDrawer extends StatelessWidget {
             child: Icon(Icons.person),
           ),
           TextButton(
-            onPressed: () async {},
+            onPressed: () async {
+              Scaffold.of(context).openEndDrawer();
+              Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) => const MyOrders()));
+            },
             child: const Text("Siparişlerim"),
           ),
           TextButton(

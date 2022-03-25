@@ -8,7 +8,6 @@ mixin OrderManagementResources {
   OrderManagementBloc? orderManagementBloc;
   List<OrderModel> allOrders = [];
   List<ProductModel> allProducts = [];
-  bool isLoading=false;
+  bool isLoading = false;
   socketio.Socket? socket;
-  
 }
