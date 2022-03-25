@@ -43,7 +43,6 @@ class OrderManagementView extends OrderManagementViewModel {
                 isLoading = true;
               });
             } else if (state is OrderManagementUpdateSuccesful) {
-              print(state.responseOrder.first.orderId);
               setState(() {
                 isLoading = false;
               });
@@ -97,13 +96,6 @@ class OrderManagementView extends OrderManagementViewModel {
                                   foregroundColor: Colors.white,
                                   icon: Icons.check,
                                   label: 'Tamamlandı',
-                                ),
-                                SlidableAction(
-                                  onPressed: null,
-                                  backgroundColor: Colors.red,
-                                  foregroundColor: Colors.white,
-                                  icon: Icons.delete,
-                                  label: 'Sil',
                                 ),
                               ],
                             ),
