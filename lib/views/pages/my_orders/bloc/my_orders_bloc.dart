@@ -8,8 +8,8 @@ import 'package:flutter_order_management/data/models/product_models/product_mode
 import 'package:flutter_order_management/data/sources/api/api_service.dart';
 import 'package:flutter_order_management/data/sources/database/local_database_helper.dart';
 
-part 'my_order_event.dart';
-part 'my_order_state.dart';
+part 'my_orders_event.dart';
+part 'my_orders_state.dart';
 
 class MyOrdersBloc extends Bloc<MyOrdersEvent, MyOrdersState> {
   MyOrdersBloc() : super(MyOrdersInitialState()) {
