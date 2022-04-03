@@ -79,7 +79,7 @@ class LoginView extends LoginViewModel {
           child: Padding(
             padding: const EdgeInsets.all(8.0),
             child: SingleChildScrollView(
-              physics: const NeverScrollableScrollPhysics(),
+              physics: const AlwaysScrollableScrollPhysics(),
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: [
