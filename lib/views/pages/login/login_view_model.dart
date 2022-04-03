@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 
 import 'bloc/login_bloc.dart';
@@ -10,8 +9,8 @@ abstract class LoginViewModel extends State<Login> with LoginResources {
 
   @override
   void initState() {
-    super.initState();
     loginBloc = LoginBloc();
+    super.initState();
   }
 
   Future<void> login(String email, String password) async {
@@ -20,7 +19,7 @@ abstract class LoginViewModel extends State<Login> with LoginResources {
 
   @override
   void dispose() {
-    super.dispose();
     loginBloc?.close();
+    super.dispose();
   }
 }

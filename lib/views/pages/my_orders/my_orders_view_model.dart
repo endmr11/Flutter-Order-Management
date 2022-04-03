@@ -12,7 +12,6 @@ import 'my_orders_resources.dart';
 abstract class MyOrdersViewModel extends State<MyOrders> with MyOrdersResources {
   @override
   void initState() {
-    super.initState();
     myOrdersBloc = MyOrdersBloc();
     myOrdersBloc?.add(MyOrdersProcessStartEvent());
     socket = SocketConfig.socket;
@@ -22,16 +21,19 @@ abstract class MyOrdersViewModel extends State<MyOrders> with MyOrdersResources 
       log('Result => $model', name: "updateOrderResponse");
       if (model.userId == LocaleDatabaseHelper.i.currentUserId) {
         var index = allOrders.indexWhere((element) => element.orderId == model.orderId);
-        setState(() {
-          allOrders[index] = model;
-        });
+        if (mounted) {
+          setState(() {
+            allOrders[index] = model;
+          });
+        }
       }
     });
+    super.initState();
   }
 
   @override
   void dispose() {
-    super.dispose();
     myOrdersBloc?.close();
+    super.dispose();
   }
 }

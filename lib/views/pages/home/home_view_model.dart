@@ -11,18 +11,18 @@ import 'home_resources.dart';
 abstract class HomeViewModel extends State<Home> with HomeResources {
   @override
   void initState() {
-    super.initState();
     homeBloc = HomeBloc();
     homeBloc?.add(HomeProcessStart());
     shoppingCartBloc = ShoppingCartBloc();
     logSession();
+    super.initState();
   }
 
   @override
   void dispose() {
-    super.dispose();
     homeBloc?.close();
     shoppingCartBloc?.close();
+    super.dispose();
   }
 
   void logSession() {

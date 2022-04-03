@@ -10,7 +10,6 @@ import 'package:flutter_order_management/views/pages/order_management/order_mana
 abstract class OrderManagementViewModel extends State<OrderManagement> with OrderManagementResources {
   @override
   void initState() {
-    super.initState();
     orderManagementBloc = OrderManagementBloc();
     orderManagementBloc?.add(OrderManagementProcessStartEvent());
     socket = SocketConfig.socket;
@@ -32,11 +31,12 @@ abstract class OrderManagementViewModel extends State<OrderManagement> with Orde
       });
     });
     socket?.on('deleteOrderResponse', (val) => log('Result => $val', name: "deleteOrderResponse"));
+    super.initState();
   }
 
   @override
   void dispose() {
-    super.dispose();
     orderManagementBloc?.close();
+    super.dispose();
   }
 }

@@ -37,7 +37,6 @@ class _MyAppState extends State<MyApp> {
   StreamSubscription<String>? langStreamSubs;
   @override
   void initState() {
-    super.initState();
     setState(() {
       isLight = LocaleDatabaseHelper.i.isLight;
     });
@@ -51,16 +50,17 @@ class _MyAppState extends State<MyApp> {
         locale = event;
       });
     });
+    super.initState();
   }
 
   @override
   void dispose() {
-    super.dispose();
     themeStreamSubs?.cancel();
     langStreamSubs?.cancel();
     TempStorage.themeDataController.close();
     TempStorage.langDataController.close();
     SocketConfig.i.closeSocket();
+    super.dispose();
   }
 
   @override
