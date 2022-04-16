@@ -12,7 +12,7 @@ class MyOrdersView extends MyOrdersViewModel {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Siparişlerim"),
+        title: const Text("Siparişlerim"),
       ),
       body: BlocProvider(
         create: (context) => MyOrdersBloc(),
