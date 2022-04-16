@@ -1,4 +1,4 @@
-import 'package:flutter_order_management/core/services/global_blocs/shopping_cart/bloc/shopping_cart_bloc.dart';
+import 'package:flutter_order_management/core/global/global_blocs/shopping_cart/bloc/shopping_cart_bloc.dart';
 import 'package:flutter_order_management/data/models/order_models/order_request_model.dart';
 import 'package:flutter_order_management/data/models/product_models/product_model.dart';
 

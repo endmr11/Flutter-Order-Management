@@ -1,7 +1,7 @@
 import 'dart:developer';
 
 import 'package:flutter/material.dart';
-import 'package:flutter_order_management/core/services/socket/socket_config.dart';
+import 'package:flutter_order_management/core/global/socket/socket_config.dart';
 import 'package:flutter_order_management/data/models/order_models/order_model.dart';
 import 'package:flutter_order_management/views/pages/order_management/bloc/order_management_bloc.dart';
 import 'package:flutter_order_management/views/pages/order_management/order_management.dart';

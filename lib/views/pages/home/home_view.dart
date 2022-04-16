@@ -2,7 +2,7 @@ import 'package:badges/badges.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import 'package:flutter_order_management/core/services/global_blocs/shopping_cart/bloc/shopping_cart_bloc.dart';
+import 'package:flutter_order_management/core/global/global_blocs/shopping_cart/bloc/shopping_cart_bloc.dart';
 import 'package:flutter_order_management/core/utils/widget/dialog_managers/dialog_manager.dart';
 import 'package:flutter_order_management/data/models/order_models/order_request_model.dart';
 import 'package:flutter_order_management/data/sources/database/local_database_helper.dart';
