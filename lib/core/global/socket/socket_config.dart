@@ -1,14 +1,12 @@
 import 'dart:developer';
-import 'dart:io';
 
-import 'package:flutter_order_management/core/env/env_config.dart';
 import 'package:socket_io_client/socket_io_client.dart' as socketio;
 
 class SocketConfig {
   SocketConfig._();
   static final SocketConfig _instance = SocketConfig._();
   static SocketConfig get i => _instance;
-  static socketio.Socket socket = socketio.io(Platform.isWindows ? EnvConfig.windowsSocketURL : EnvConfig.socketURL, <String, dynamic>{
+  static socketio.Socket socket = socketio.io('http://10.0.2.2:8083', <String, dynamic>{
     'transports': ['websocket'],
   });
 
