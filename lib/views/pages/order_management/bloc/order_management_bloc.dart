@@ -18,6 +18,8 @@ class OrderManagementBloc extends Bloc<OrderManagementEvent, OrderManagementStat
   }
 
   final apiService = APIService();
+  List<OrderModel> allOrders = [];
+  List<ProductModel> allProducts = [];
 
   Future<void> orderManagementEventControl(OrderManagementEvent event, Emitter<OrderManagementState> emit) async {
     if (event is OrderManagementProcessStartEvent) {
@@ -26,23 +28,34 @@ class OrderManagementBloc extends Bloc<OrderManagementEvent, OrderManagementStat
       BaseListResponse<ProductModel>? productResponse = await apiService.getAllProducts();
       try {
         if (orderResponse != null && productResponse != null) {
-          emit(OrderManagementProcessSuccesful(orderResponse.model!, productResponse.model!));
+          allOrders.addAll(orderResponse.model!);
+          allProducts.addAll(productResponse.model!);
+          emit(OrderManagementProcessSuccesful(allOrders, allProducts));
         }
       } catch (e) {
         log(e.toString(), error: "OrderManagementProcessError");
-        emit(OrderManagementProcessError());
+        emit(OrderManagementProcessError(e.toString()));
       }
     } else if (event is OrderManagementUpdateEvent) {
       BaseListResponse<OrderModel>? orderResponse = await apiService.updateOrder(event.orderRequestModel, event.orderId);
-
       try {
         if (orderResponse != null) {
-          emit(OrderManagementUpdateSuccesful(orderResponse.model!));
+          var index = allOrders.indexWhere((element) => element.orderId == orderResponse.model!.first.orderId);
+          allOrders[index] = orderResponse.model!.first;
+          emit(OrderManagementProcessSuccesful(allOrders, allProducts));
+          //emit(OrderManagementUpdateSuccesful(allOrders));
         }
       } catch (e) {
         log(e.toString(), error: "OrderManagementUpdateError");
-        emit(OrderManagementUpdateError());
+        emit(OrderManagementProcessError(e.toString()));
       }
+    } else if (event is OrderManagementSocketCreateEvent) {
+      allOrders.insert(0, event.model);
+      emit(OrderManagementProcessSuccesful(allOrders, allProducts));
+    } else if (event is OrderManagementSocketUpdateEvent) {
+      var index = allOrders.indexWhere((element) => element.orderId == event.model.orderId);
+      allOrders[index] = event.model;
+      emit(OrderManagementProcessSuccesful(allOrders, allProducts));
     }
   }
 }

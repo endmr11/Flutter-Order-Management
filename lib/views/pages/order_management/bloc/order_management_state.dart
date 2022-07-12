@@ -17,19 +17,25 @@ class OrderManagementProcessSuccesful extends OrderManagementState {
 
   const OrderManagementProcessSuccesful(this.allOrders, this.allProducts);
   @override
-  List<Object> get props => [UniqueKey(),allOrders, allProducts];
+  List<Object> get props => [UniqueKey(), allOrders, allProducts];
 }
 
-class OrderManagementProcessError extends OrderManagementState {}
+class OrderManagementProcessError extends OrderManagementState {
+  final String error;
 
-class OrderManagementUpdateLoading extends OrderManagementState {}
-
-class OrderManagementUpdateSuccesful extends OrderManagementState {
-  final List<OrderModel> responseOrder;
-
-  const OrderManagementUpdateSuccesful(this.responseOrder);
+  const OrderManagementProcessError(this.error);
   @override
-  List<Object> get props => [UniqueKey(),responseOrder];
+  List<Object> get props => [UniqueKey(), error];
 }
 
-class OrderManagementUpdateError extends OrderManagementState {}
+//class OrderManagementUpdateLoading extends OrderManagementState {}
+
+// class OrderManagementUpdateSuccesful extends OrderManagementState {
+//   final List<OrderModel> responseOrder;
+
+//   const OrderManagementUpdateSuccesful(this.responseOrder);
+//   @override
+//   List<Object> get props => [UniqueKey(),responseOrder];
+// }
+
+// class OrderManagementUpdateError extends OrderManagementState {}

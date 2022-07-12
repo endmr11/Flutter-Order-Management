@@ -19,13 +19,13 @@ class UserResponseModel {
   int? status;
   String? message;
   String? path;
-  List<Model>? model;
+  List<UserModel>? model;
 
   factory UserResponseModel.fromJson(Map<String, dynamic> json) => UserResponseModel(
         status: json["status"],
         message: json["message"],
         path: json["path"],
-        model: json["model"] == null ? null : List<Model>.from(json["model"].map((x) => Model.fromJson(x))),
+        model: json["model"] == null ? null : List<UserModel>.from(json["model"].map((x) => UserModel.fromJson(x))),
       );
 
   Map<String, dynamic> toJson() => {
@@ -36,8 +36,8 @@ class UserResponseModel {
       };
 }
 
-class Model {
-  Model({
+class UserModel {
+  UserModel({
     this.userId,
     this.userName,
     this.userSurname,
@@ -51,7 +51,7 @@ class Model {
   String? userEmail;
   int? userType;
 
-  factory Model.fromJson(Map<String, dynamic> json) => Model(
+  factory UserModel.fromJson(Map<String, dynamic> json) => UserModel(
         userId: json["user_id"],
         userName: json["user_name"],
         userSurname: json["user_surname"],

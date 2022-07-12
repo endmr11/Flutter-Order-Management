@@ -19,9 +19,145 @@ class OrderManagementView extends OrderManagementViewModel {
         title: const Text("Siparişler"),
         centerTitle: true,
       ),
-      body: BlocProvider(
-        create: (context) => OrderManagementBloc(),
-        child: BlocListener<OrderManagementBloc, OrderManagementState>(
+      body: BlocConsumer(
+        bloc: orderManagementBloc,
+        listener: (context, state) {
+          if (state is OrderManagementProcessError) {
+            DialogManager.i.showClassicAlertDialog(
+              context: context,
+              title: "Hata",
+              content: [Text(state.error)],
+              actions: [ElevatedButton(onPressed: () => Navigator.pop(context), child: const Text("Ok"))],
+            );
+          }
+        },
+        builder: (context, state) {
+          if (state is OrderManagementProcessLoading) {
+            return const Center(
+              child: CircularProgressIndicator.adaptive(),
+            );
+          } else if (state is OrderManagementProcessSuccesful) {
+            return Column(
+              children: [
+                Expanded(
+                  child: ListView.builder(
+                    itemCount: state.allOrders.length,
+                    itemBuilder: (context, index) {
+                      return Slidable(
+                        endActionPane: ActionPane(
+                          motion: const ScrollMotion(),
+                          children: [
+                            SlidableAction(
+                              onPressed: (context) {
+                                if (state.allOrders[index].orderStatus == 0) {
+                                  List<OrderProductModel> productList = [];
+                                  for (int i = 0; i < state.allOrders[index].products!.length; i++) {
+                                    productList.add(
+                                      OrderProductModel(
+                                        count: state.allOrders[index].products?[i].count,
+                                        productId: state.allOrders[index].products?[i].productId,
+                                      ),
+                                    );
+                                  }
+                                  orderManagementBloc?.add(
+                                    OrderManagementUpdateEvent(
+                                      OrderRequestModel(
+                                        userId: state.allOrders[index].userId,
+                                        products: productList,
+                                        userName: state.allOrders[index].userName,
+                                        userSurname: state.allOrders[index].userSurname,
+                                        orderStatus: state.allOrders[index].orderStatus == 0 ? 1 : 0,
+                                      ),
+                                      state.allOrders[index].orderId.toString(),
+                                    ),
+                                  );
+                                }
+                              },
+                              backgroundColor: Colors.green,
+                              foregroundColor: Colors.white,
+                              icon: Icons.check,
+                              label: 'Tamamlandı',
+                            ),
+                          ],
+                        ),
+                        child: ListTile(
+                          leading: CircleAvatar(
+                            backgroundColor: state.allOrders[index].orderStatus == 1 ? Colors.green.shade800 : Colors.red,
+                            child: const Icon(Icons.check, color: Colors.white),
+                          ),
+                          title: Text(
+                            state.allOrders[index].userName ?? "",
+                          ),
+                          trailing: Text("${priceCalculate(state.allOrders[index].products, state.allProducts)}₺"),
+                          onTap: () {
+                            List<Widget> tempCartProducts = [];
+                            state.allOrders[index].products?.forEach(
+                              (element) {
+                                ProductModel tempProduct = state.allProducts.firstWhere((val) => val.productId == element.productId);
+                                tempCartProducts.add(
+                                  ListTile(
+                                    leading: CircleAvatar(
+                                      backgroundColor: Colors.transparent,
+                                      child: Image.asset('assets/${tempProduct.productUrl}.png'),
+                                    ),
+                                    title: Text(tempProduct.productName ?? ""),
+                                    subtitle: Text("Tane Fiyatı: ${tempProduct.productPrice}"),
+                                    trailing: Text("${element.count} Adet"),
+                                  ),
+                                );
+                              },
+                            );
+                            DialogManager.i.showCartViewAlertDialog(
+                              context: context,
+                              title: "Sipariş Detayı",
+                              content: tempCartProducts,
+                              actions: [],
+                              totalPrice: priceCalculate(state.allOrders[index].products, state.allProducts),
+                            );
+                          },
+                        ),
+                      );
+                    },
+                  ),
+                ),
+                ElevatedButton(
+                  onPressed: () async {
+                    await LocaleDatabaseHelper.i.userSessionClear();
+                    Navigator.pushReplacement(
+                      context,
+                      MaterialPageRoute(
+                        builder: (BuildContext context) => const Login(),
+                      ),
+                    );
+                  },
+                  child: const Text("Çık"),
+                )
+              ],
+            );
+          } else {
+            return const Center(
+              child: Text("Error"),
+            );
+          }
+        },
+      ),
+    );
+  }
+
+  String? priceCalculate(List<Product>? products, List<ProductModel> allProducts) {
+    int price = 0;
+    products?.forEach((element) {
+      ProductModel tempProduct = allProducts.firstWhere((val) => val.productId == element.productId);
+      price += tempProduct.productPrice! * (element.count!);
+    });
+    return price.toString();
+  }
+}
+
+/*
+
+
+BlocListener<OrderManagementBloc, OrderManagementState>(
           bloc: orderManagementBloc,
           listener: (context, state) {
             if (state is OrderManagementProcessLoading) {
@@ -154,21 +290,6 @@ class OrderManagementView extends OrderManagementViewModel {
                   ],
                 ),
         ),
-      ),
-    );
-  }
-
-  String? priceCalculate(List<Product>? products) {
-    int price = 0;
-    products?.forEach((element) {
-      ProductModel tempProduct = allProducts.firstWhere((val) => val.productId == element.productId);
-      price += tempProduct.productPrice! * (element.count!);
-    });
-    return price.toString();
-  }
-}
-
-/*
 
 classicButton(
             text: "Çıkk",

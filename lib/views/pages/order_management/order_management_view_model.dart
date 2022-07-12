@@ -17,18 +17,20 @@ abstract class OrderManagementViewModel extends State<OrderManagement> with Orde
       Map<String, dynamic> jsonVal = val;
       OrderModel model = OrderModel.fromJson(jsonVal);
       log('Result => $model', name: "createOrderResponse");
-      setState(() {
-        allOrders.insert(0, model);
-      });
+      orderManagementBloc?.add(OrderManagementSocketCreateEvent(model));
+      // setState(() {
+      //   allOrders.insert(0, model);
+      // });
     });
     socket?.on('updateOrderResponse', (val) {
       Map<String, dynamic> jsonVal = val;
       OrderModel model = OrderModel.fromJson(jsonVal);
       log('Result => $model', name: "updateOrderResponse");
-      var index = allOrders.indexWhere((element) => element.orderId == model.orderId);
-      setState(() {
-        allOrders[index] = model;
-      });
+      orderManagementBloc?.add(OrderManagementSocketUpdateEvent(model));
+      // var index = allOrders.indexWhere((element) => element.orderId == model.orderId);
+      // setState(() {
+      //   allOrders[index] = model;
+      // });
     });
     socket?.on('deleteOrderResponse', (val) => log('Result => $val', name: "deleteOrderResponse"));
     super.initState();
