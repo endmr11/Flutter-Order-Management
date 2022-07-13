@@ -19,7 +19,7 @@ abstract class MyOrdersViewModel extends State<MyOrders> with MyOrdersResources 
       Map<String, dynamic> jsonVal = val;
       OrderModel model = OrderModel.fromJson(jsonVal);
       log('Result => $model', name: "updateOrderResponse");
-      if (model.userId == LocaleDatabaseHelper.i.currentUserId) {
+      if (model.userId == LocaleDatabaseHelper.i.currentUserId && !myOrdersBloc!.isClosed) {
         myOrdersBloc?.add(MyOrdersProcessSocketUpdateEvent(model));
       }
     });
