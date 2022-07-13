@@ -60,6 +60,8 @@ class HomeView extends HomeViewModel {
                   showSuccessfulDialog();
                   setState(() {
                     screenIndex = 0;
+                    productList.clear();
+                    productList = [];
                   });
                 } else if (state is ShoppingCartOrderError) {
                   Navigator.pop(context);
@@ -112,22 +114,18 @@ class HomeView extends HomeViewModel {
                                                       children: [
                                                         IconButton(
                                                           onPressed: () {
-                                                            setState(() {
-                                                              if (state.cartProductCount[index] != 1) {
-                                                                state.cartProductCount[index] -= 1;
-                                                              } else {
-                                                                state.cartProducts.remove(state.cartProducts[index]);
-                                                              }
-                                                            });
+                                                            if (state.cartProductCount[index] != 1) {
+                                                              shoppingCartBloc?.add(ShoppingProductCountDecreaseEvent(index));
+                                                            } else {
+                                                              shoppingCartBloc?.add(ShoppingCartRemoveEvent(state.cartProducts[index]));
+                                                            }
                                                           },
                                                           icon: const Icon(Icons.remove),
                                                         ),
                                                         Text(state.cartProductCount[index].toString()),
                                                         IconButton(
                                                           onPressed: () {
-                                                            setState(() {
-                                                              state.cartProductCount[index] += 1;
-                                                            });
+                                                            shoppingCartBloc?.add(ShoppingProductCountIcrementEvent(index));
                                                           },
                                                           icon: const Icon(Icons.add),
                                                         ),
@@ -148,13 +146,18 @@ class HomeView extends HomeViewModel {
                                                   productId: state.cartProducts[i].productId,
                                                 ));
                                               }
-                                              shoppingCartBloc?.add(ShoppingCartAddOrder(OrderRequestModel(
-                                                userId: LocaleDatabaseHelper.i.currentUserId,
-                                                products: productList,
-                                                userName: LocaleDatabaseHelper.i.currentUserName,
-                                                userSurname: LocaleDatabaseHelper.i.currentUserSurname,
-                                                orderStatus: 0,
-                                              )));
+                                              print("asdasdasdasd $productList");
+                                              shoppingCartBloc?.add(
+                                                ShoppingCartAddOrder(
+                                                  OrderRequestModel(
+                                                    userId: LocaleDatabaseHelper.i.currentUserId,
+                                                    products: productList,
+                                                    userName: LocaleDatabaseHelper.i.currentUserName,
+                                                    userSurname: LocaleDatabaseHelper.i.currentUserSurname,
+                                                    orderStatus: 0,
+                                                  ),
+                                                ),
+                                              );
                                             },
                                       child: const Text("Sipariş Ver"),
                                     ),

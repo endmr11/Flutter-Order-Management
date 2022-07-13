@@ -26,8 +26,8 @@ class MyOrdersBloc extends Bloc<MyOrdersEvent, MyOrdersState> {
       BaseListResponse<ProductModel>? productResponse = await apiService.getAllProducts();
       try {
         if (orderResponse != null && productResponse != null) {
-          allOrders.addAll(orderResponse.model!);
-          allProducts.addAll(productResponse.model!);
+          allOrders = orderResponse.model!;
+          allProducts = productResponse.model!;
           emit(MyOrdersProcessSuccesful(allOrders, allProducts));
         }
       } catch (e) {

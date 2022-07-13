@@ -28,18 +28,30 @@ class ShoppingCartBloc extends Bloc<ShoppingCartEvent, ShoppingCartState> {
         emit(const ShoppingCartAddedState(false));
         add(const ShoppingCartRefreshEvent());
       }
+    } else if (event is ShoppingCartRemoveEvent) {
+      cartProducts.removeWhere((element) => element.productId == event.product.productId);
+      cartProductCount.removeAt(0);
+      add(const ShoppingCartRefreshEvent());
     } else if (event is ShoppingCartAddOrder) {
       emit(ShoppingCartOrderLoading());
       BaseListResponse<OrderModel>? response = await apiService.setOrder(event.orderRequestModel);
       if (response != null) {
         cartProducts.clear();
+        cartProducts = [];
         cartProductCount.clear();
+        cartProductCount = [];
         emit(ShoppingCartOrderSuccesful());
         add(const ShoppingCartRefreshEvent());
       } else {
         emit(ShoppingCartOrderError());
         add(const ShoppingCartRefreshEvent());
       }
+    } else if (event is ShoppingProductCountIcrementEvent) {
+      cartProductCount[event.index] += 1;
+      add(const ShoppingCartRefreshEvent());
+    } else if (event is ShoppingProductCountDecreaseEvent) {
+      cartProductCount[event.index] -= 1;
+      add(const ShoppingCartRefreshEvent());
     } else if (event is ShoppingCartRefreshEvent) {
       emit(ShoppingCartLoadedState(cartProducts, cartProductCount));
     }

@@ -16,6 +16,33 @@ class ShoppingCartAddEvent extends ShoppingCartEvent {
   List<Object> get props => [UniqueKey(), product];
 }
 
+class ShoppingCartRemoveEvent extends ShoppingCartEvent {
+  final ProductModel product;
+
+  const ShoppingCartRemoveEvent(this.product);
+
+  @override
+  List<Object> get props => [UniqueKey(), product];
+}
+
+class ShoppingProductCountIcrementEvent extends ShoppingCartEvent {
+  final int index;
+
+  const ShoppingProductCountIcrementEvent(this.index);
+
+  @override
+  List<Object> get props => [UniqueKey(), index];
+}
+
+class ShoppingProductCountDecreaseEvent extends ShoppingCartEvent {
+  final int index;
+
+  const ShoppingProductCountDecreaseEvent(this.index);
+
+  @override
+  List<Object> get props => [UniqueKey(), index];
+}
+
 class ShoppingCartRefreshEvent extends ShoppingCartEvent {
   const ShoppingCartRefreshEvent();
 
