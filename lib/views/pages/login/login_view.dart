@@ -1,11 +1,8 @@
-
-
 import 'package:flag/flag.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_order_management/core/global/temp_storage.dart';
-import 'package:flutter_order_management/core/utils/widget/dialog_managers/dialog_manager.dart';
 import 'package:flutter_order_management/data/sources/database/local_database_helper.dart';
 import 'package:flutter_order_management/views/components/app_bars/classic_app_bar.dart';
 import 'package:flutter_order_management/views/components/buttons/classic_button.dart';
@@ -14,6 +11,7 @@ import 'package:flutter_order_management/views/components/text_form_fields/class
 import 'package:flutter_order_management/views/pages/page_management/page_management.dart';
 import 'package:universal_io/io.dart';
 
+import '../../widgets/dialog_managers/dialog_manager.dart';
 import 'bloc/login_bloc.dart';
 import 'login_view_model.dart';
 
@@ -59,7 +57,7 @@ class LoginView extends LoginViewModel {
         ],
       ),
       body: BlocProvider(
-        create: (context) => LoginBloc(),
+        create: (context) => loginBloc ?? LoginBloc(),
         child: BlocListener<LoginBloc, LoginState>(
           bloc: loginBloc,
           listener: (context, state) {

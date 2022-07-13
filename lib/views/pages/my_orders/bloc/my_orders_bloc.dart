@@ -17,6 +17,8 @@ class MyOrdersBloc extends Bloc<MyOrdersEvent, MyOrdersState> {
     on(myOrdersEventControl);
   }
   final apiService = APIService();
+  List<OrderModel> allOrders = [];
+  List<ProductModel> allProducts = [];
   Future<void> myOrdersEventControl(MyOrdersEvent event, Emitter<MyOrdersState> emit) async {
     if (event is MyOrdersProcessStartEvent) {
       emit(MyOrdersProcessLoading());
@@ -24,12 +26,18 @@ class MyOrdersBloc extends Bloc<MyOrdersEvent, MyOrdersState> {
       BaseListResponse<ProductModel>? productResponse = await apiService.getAllProducts();
       try {
         if (orderResponse != null && productResponse != null) {
-          emit(MyOrdersProcessSuccesful(orderResponse.model!, productResponse.model!));
+          allOrders.addAll(orderResponse.model!);
+          allProducts.addAll(productResponse.model!);
+          emit(MyOrdersProcessSuccesful(allOrders, allProducts));
         }
       } catch (e) {
         log(e.toString(), error: "MyOrdersProcessError");
         emit(MyOrdersProcessError());
       }
+    } else if (event is MyOrdersProcessSocketUpdateEvent) {
+      var index = allOrders.indexWhere((element) => element.orderId == event.model.orderId);
+      allOrders[index] = event.model;
+      emit(MyOrdersProcessSuccesful(allOrders, allProducts));
     }
   }
 }

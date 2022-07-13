@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_order_management/core/utils/widget/dialog_managers/dialog_manager.dart';
-import 'package:flutter_order_management/data/models/order_models/order_model.dart';
 import 'package:flutter_order_management/data/models/order_models/order_request_model.dart';
 import 'package:flutter_order_management/data/models/product_models/product_model.dart';
 import 'package:flutter_order_management/data/sources/database/local_database_helper.dart';
 import 'package:flutter_order_management/views/pages/login/login.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 
+import '../../../core/utils/util/util_manager.dart';
+import '../../widgets/dialog_managers/dialog_manager.dart';
 import 'bloc/order_management_bloc.dart';
 import 'order_management_view_model.dart';
 
@@ -88,7 +88,7 @@ class OrderManagementView extends OrderManagementViewModel {
                           title: Text(
                             state.allOrders[index].userName ?? "",
                           ),
-                          trailing: Text("${priceCalculate(state.allOrders[index].products, state.allProducts)}₺"),
+                          trailing: Text("${UtilManager().priceCalculate(state.allOrders[index].products, state.allProducts)}₺"),
                           onTap: () {
                             List<Widget> tempCartProducts = [];
                             state.allOrders[index].products?.forEach(
@@ -112,7 +112,7 @@ class OrderManagementView extends OrderManagementViewModel {
                               title: "Sipariş Detayı",
                               content: tempCartProducts,
                               actions: [],
-                              totalPrice: priceCalculate(state.allOrders[index].products, state.allProducts),
+                              totalPrice: UtilManager().priceCalculate(state.allOrders[index].products, state.allProducts),
                             );
                           },
                         ),
@@ -142,15 +142,6 @@ class OrderManagementView extends OrderManagementViewModel {
         },
       ),
     );
-  }
-
-  String? priceCalculate(List<Product>? products, List<ProductModel> allProducts) {
-    int price = 0;
-    products?.forEach((element) {
-      ProductModel tempProduct = allProducts.firstWhere((val) => val.productId == element.productId);
-      price += tempProduct.productPrice! * (element.count!);
-    });
-    return price.toString();
   }
 }
 
