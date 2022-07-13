@@ -21,12 +21,6 @@ abstract class MyOrdersViewModel extends State<MyOrders> with MyOrdersResources 
       log('Result => $model', name: "updateOrderResponse");
       if (model.userId == LocaleDatabaseHelper.i.currentUserId) {
         myOrdersBloc?.add(MyOrdersProcessSocketUpdateEvent(model));
-        // var index = allOrders.indexWhere((element) => element.orderId == model.orderId);
-        // if (mounted) {
-        //   setState(() {
-        //     allOrders[index] = model;
-        //   });
-        // }
       }
     });
     super.initState();

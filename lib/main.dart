@@ -7,10 +7,9 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_order_management/core/global/socket/socket_config.dart';
 import 'package:flutter_order_management/views/pages/login/login.dart';
 import 'package:flutter_order_management/views/pages/page_management/page_management.dart';
-import 'package:universal_io/io.dart';
 
 import 'app_observer.dart';
-import 'core/global/temp_storage.dart';
+import 'core/global/global_blocs/main_bloc/main_bloc.dart';
 import 'data/sources/database/local_database_helper.dart';
 
 Future<void> main() async {
@@ -18,7 +17,16 @@ Future<void> main() async {
   await LocaleDatabaseHelper.i.initLocalDatabase();
   await SocketConfig.i.initSocket();
   BlocOverrides.runZoned(
-    () => runApp(const MyApp()),
+    () => runApp(
+      MultiBlocProvider(
+        providers: [
+          BlocProvider(
+            create: (BuildContext context) => MainBloc(),
+          )
+        ],
+        child: const MyApp(),
+      ),
+    ),
     blocObserver: MyAppObserver(),
   );
 }
@@ -31,58 +39,55 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
-  bool? isLight;
-  String? locale = LocaleDatabaseHelper.i.currentUserLang ?? Platform.localeName.substring(0, 2);
-  StreamSubscription<bool>? themeStreamSubs;
+  //bool? isLight;
+  // String? locale = LocaleDatabaseHelper.i.currentUserLang ?? Platform.localeName.substring(0, 2);
+  // StreamSubscription<bool>? themeStreamSubs;
   StreamSubscription<String>? langStreamSubs;
   @override
   void initState() {
-    setState(() {
-      isLight = LocaleDatabaseHelper.i.isLight;
-    });
-    themeStreamSubs = TempStorage.themeStream.listen((event) {
-      setState(() {
-        isLight = event;
-      });
-    });
-    langStreamSubs = TempStorage.langStream.listen((event) {
-      setState(() {
-        locale = event;
-      });
-    });
     super.initState();
   }
 
   @override
   void dispose() {
-    themeStreamSubs?.cancel();
-    langStreamSubs?.cancel();
-    TempStorage.themeDataController.close();
-    TempStorage.langDataController.close();
+    // themeStreamSubs?.cancel();π
+    // langStreamSubs?.cancel();
+    // TempStorage.themeDataController.close();
+    // TempStorage.langDataController.close();
     SocketConfig.i.closeSocket();
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Flutter Demo',
-      debugShowCheckedModeBanner: false,
-      themeMode: isLight == null
-          ? ThemeMode.light
-          : isLight!
-              ? ThemeMode.light
-              : ThemeMode.dark,
-      theme: FlexColorScheme.light(scheme: FlexScheme.green).toTheme,
-      darkTheme: FlexColorScheme.dark(scheme: FlexScheme.green).toTheme,
-      localizationsDelegates: AppLocalizations.localizationsDelegates,
-      supportedLocales: AppLocalizations.supportedLocales,
-      locale: Locale(locale ?? 'tr'),
-      home: LocaleDatabaseHelper.i.isLoggedIn != null
-          ? LocaleDatabaseHelper.i.isLoggedIn!
-              ? const PageManagement()
-              : const Login()
-          : const Login(),
+    return BlocBuilder(
+      bloc: context.watch<MainBloc>(),
+      builder: (context, state) {
+        if (state is ThemeChangeState) {
+          return MaterialApp(
+            title: 'Flutter Demo',
+            debugShowCheckedModeBanner: false,
+            themeMode: state.isLight ? ThemeMode.light : ThemeMode.dark,
+            // themeMode: isLight == null
+            //     ? ThemeMode.light
+            //     : isLight!
+            //         ? ThemeMode.light
+            //         : ThemeMode.dark,
+            theme: FlexColorScheme.light(scheme: FlexScheme.green).toTheme,
+            darkTheme: FlexColorScheme.dark(scheme: FlexScheme.green).toTheme,
+            localizationsDelegates: AppLocalizations.localizationsDelegates,
+            supportedLocales: AppLocalizations.supportedLocales,
+            locale: Locale(state.locale),
+            home: LocaleDatabaseHelper.i.isLoggedIn != null
+                ? LocaleDatabaseHelper.i.isLoggedIn!
+                    ? const PageManagement()
+                    : Login(themeBloc: context.watch<MainBloc>())
+                : Login(themeBloc: context.watch<MainBloc>()),
+          );
+        } else {
+          return Container();
+        }
+      },
     );
   }
 }

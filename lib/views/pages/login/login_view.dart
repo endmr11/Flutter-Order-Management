@@ -2,7 +2,6 @@ import 'package:flag/flag.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import 'package:flutter_order_management/core/global/temp_storage.dart';
 import 'package:flutter_order_management/data/sources/database/local_database_helper.dart';
 import 'package:flutter_order_management/views/components/app_bars/classic_app_bar.dart';
 import 'package:flutter_order_management/views/components/buttons/classic_button.dart';
@@ -11,6 +10,7 @@ import 'package:flutter_order_management/views/components/text_form_fields/class
 import 'package:flutter_order_management/views/pages/page_management/page_management.dart';
 import 'package:universal_io/io.dart';
 
+import '../../../core/global/global_blocs/main_bloc/main_bloc.dart';
 import '../../widgets/dialog_managers/dialog_manager.dart';
 import 'bloc/login_bloc.dart';
 import 'login_view_model.dart';
@@ -34,7 +34,8 @@ class LoginView extends LoginViewModel {
                       ? false
                       : true
                   : false);
-              TempStorage.themeDataController.add(LocaleDatabaseHelper.i.isLight!);
+              context.read<MainBloc>().add(const ThemeChangeEvent());
+              // TempStorage.themeDataController.add(LocaleDatabaseHelper.i.isLight!);
             },
             icon: const Icon(Icons.brightness_6),
           ),
@@ -43,8 +44,8 @@ class LoginView extends LoginViewModel {
             onChanged: (val) {
               setState(() {
                 dropdownValue = val!;
-                LocaleDatabaseHelper.i.setCurrentUserLang(val);
-                TempStorage.langDataController.add(val);
+                context.read<MainBloc>().add(LanguageChangeEvent(val));
+                // TempStorage.langDataController.add(val);
               });
             },
             items: <String>['en', 'tr'].map<DropdownMenuItem<String>>((String value) {
