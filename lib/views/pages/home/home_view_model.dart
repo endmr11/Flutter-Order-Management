@@ -14,6 +14,7 @@ abstract class HomeViewModel extends State<Home> with HomeResources {
     homeBloc = HomeBloc();
     homeBloc?.add(HomeProcessStart());
     shoppingCartBloc = ShoppingCartBloc();
+    shoppingCartBloc?.add(const ShoppingCartRefreshEvent());
     logSession();
     super.initState();
   }

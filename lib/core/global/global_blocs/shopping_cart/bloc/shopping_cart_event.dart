@@ -16,6 +16,13 @@ class ShoppingCartAddEvent extends ShoppingCartEvent {
   List<Object> get props => [UniqueKey(), product];
 }
 
+class ShoppingCartRefreshEvent extends ShoppingCartEvent {
+  const ShoppingCartRefreshEvent();
+
+  @override
+  List<Object> get props => [UniqueKey()];
+}
+
 class ShoppingCartAddOrder extends ShoppingCartEvent {
   final OrderRequestModel orderRequestModel;
 

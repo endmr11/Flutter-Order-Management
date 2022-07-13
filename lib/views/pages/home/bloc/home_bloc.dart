@@ -13,12 +13,14 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
     on(homeEventControl);
   }
   final apiService = APIService();
+  List<ProductModel> allProducts = [];
   Future<void> homeEventControl(HomeEvent event, Emitter<HomeState> emit) async {
     if (event is HomeProcessStart) {
       emit(HomeProcessLoading());
       BaseListResponse<ProductModel>? response = await apiService.getAllProducts();
       if (response != null) {
-        emit(HomeProcessSuccesful(response.model!));
+        allProducts.addAll(response.model!);
+        emit(HomeProcessSuccesful(allProducts));
       } else {
         emit(HomeProcessError());
       }

@@ -15,17 +15,33 @@ class ShoppingCartBloc extends Bloc<ShoppingCartEvent, ShoppingCartState> {
     on(shoppingCartEventControl);
   }
   final apiService = APIService();
+  List<ProductModel> cartProducts = [];
+  List<int> cartProductCount = [];
   Future<void> shoppingCartEventControl(ShoppingCartEvent event, Emitter<ShoppingCartState> emit) async {
     if (event is ShoppingCartAddEvent) {
-      emit(ShoppingCartAddedState(event.product));
+      if (!cartProducts.contains(event.product)) {
+        cartProductCount.add(1);
+        cartProducts.add(event.product);
+        emit(const ShoppingCartAddedState(true));
+        add(const ShoppingCartRefreshEvent());
+      } else {
+        emit(const ShoppingCartAddedState(false));
+        add(const ShoppingCartRefreshEvent());
+      }
     } else if (event is ShoppingCartAddOrder) {
       emit(ShoppingCartOrderLoading());
       BaseListResponse<OrderModel>? response = await apiService.setOrder(event.orderRequestModel);
       if (response != null) {
+        cartProducts.clear();
+        cartProductCount.clear();
         emit(ShoppingCartOrderSuccesful());
+        add(const ShoppingCartRefreshEvent());
       } else {
         emit(ShoppingCartOrderError());
+        add(const ShoppingCartRefreshEvent());
       }
+    } else if (event is ShoppingCartRefreshEvent) {
+      emit(ShoppingCartLoadedState(cartProducts, cartProductCount));
     }
   }
 }

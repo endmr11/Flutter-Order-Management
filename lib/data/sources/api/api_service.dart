@@ -12,7 +12,18 @@ import 'package:flutter_order_management/data/models/refresh_token_models/refres
 import 'package:flutter_order_management/data/sources/database/local_database_helper.dart';
 import 'package:http/http.dart' as http;
 
-class APIService {
+abstract class IAPIService {
+  Future<BaseListResponse<LoginModel>?> login(LoginRequestModel model);
+  Future<BaseListResponse<ProductModel>?> getAllProducts();
+  Future<BaseListResponse<OrderModel>?> getAllOrders();
+  Future<BaseListResponse<OrderModel>?> getMyOrders(String userId);
+  Future<BaseListResponse<OrderModel>?> setOrder(OrderRequestModel? model);
+  Future<BaseListResponse<OrderModel>?> updateOrder(OrderRequestModel? model, String orderId);
+  Future<void> refreshToken();
+}
+
+class APIService extends IAPIService {
+  @override
   Future<BaseListResponse<LoginModel>?> login(LoginRequestModel model) async {
     Map<String, String> requestHeaders = {
       'Content-Type': 'application/json',
@@ -24,8 +35,10 @@ class APIService {
       log(response.statusCode.toString(), name: "API PATH:/login");
       return baseListResponse;
     }
+    return null;
   }
 
+  @override
   Future<BaseListResponse<ProductModel>?> getAllProducts() async {
     Map<String, String> requestHeaders = {
       'Content-Type': 'application/json',
@@ -40,10 +53,12 @@ class APIService {
     }
     if (response.statusCode == 401) {
       log(response.statusCode.toString(), name: "API PATH:${EnvConfig.allProductsEP}", error: "TOKEN EXPIRED");
-      _refreshToken();
+      refreshToken();
     }
+    return null;
   }
 
+  @override
   Future<BaseListResponse<OrderModel>?> getAllOrders() async {
     Map<String, String> requestHeaders = {
       'Content-Type': 'application/json',
@@ -58,10 +73,12 @@ class APIService {
     }
     if (response.statusCode == 401) {
       log(response.statusCode.toString(), name: "API PATH:${EnvConfig.allOrdersEP}", error: "TOKEN EXPIRED");
-      _refreshToken();
+      refreshToken();
     }
+    return null;
   }
 
+  @override
   Future<BaseListResponse<OrderModel>?> getMyOrders(String userId) async {
     Map<String, String> requestHeaders = {
       'Content-Type': 'application/json',
@@ -76,10 +93,12 @@ class APIService {
     }
     if (response.statusCode == 401) {
       log(response.statusCode.toString(), name: "API PATH:${EnvConfig.myOrdersEP}", error: "TOKEN EXPIRED");
-      _refreshToken();
+      refreshToken();
     }
+    return null;
   }
 
+  @override
   Future<BaseListResponse<OrderModel>?> setOrder(OrderRequestModel? model) async {
     Map<String, String> requestHeaders = {
       'Content-Type': 'application/json',
@@ -94,10 +113,12 @@ class APIService {
     }
     if (response.statusCode == 401) {
       log(response.statusCode.toString(), name: "API PATH:${EnvConfig.orderCreateEP}", error: "TOKEN EXPIRED");
-      _refreshToken();
+      refreshToken();
     }
+    return null;
   }
 
+  @override
   Future<BaseListResponse<OrderModel>?> updateOrder(OrderRequestModel? model, String orderId) async {
     Map<String, String> requestHeaders = {
       'Content-Type': 'application/json',
@@ -112,11 +133,13 @@ class APIService {
     }
     if (response.statusCode == 401) {
       log(response.statusCode.toString(), name: "API PATH:${EnvConfig.orderUpdateEP + orderId}", error: "TOKEN EXPIRED");
-      _refreshToken();
+      refreshToken();
     }
+    return null;
   }
 
-  Future<void> _refreshToken() async {
+  @override
+  Future<void> refreshToken() async {
     Map<String, String> requestHeaders = {
       'Content-Type': 'application/json',
     };

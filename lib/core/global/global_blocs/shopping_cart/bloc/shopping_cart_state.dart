@@ -10,12 +10,22 @@ abstract class ShoppingCartState extends Equatable {
 class ShoppingCartInitialState extends ShoppingCartState {}
 
 class ShoppingCartAddedState extends ShoppingCartState {
-  final ProductModel product;
+  final bool isAdded;
 
-  const ShoppingCartAddedState(this.product);
+  const ShoppingCartAddedState(this.isAdded);
 
   @override
-  List<Object> get props => [UniqueKey(), product];
+  List<Object> get props => [UniqueKey(), isAdded];
+}
+
+class ShoppingCartLoadedState extends ShoppingCartState {
+  final List<ProductModel> cartProducts;
+  final List<int> cartProductCount;
+
+  const ShoppingCartLoadedState(this.cartProducts,this.cartProductCount);
+
+  @override
+  List<Object> get props => [UniqueKey(), cartProducts,cartProductCount];
 }
 
 class ShoppingCartOrderLoading extends ShoppingCartState {}
