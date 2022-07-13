@@ -39,9 +39,6 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
-  //bool? isLight;
-  // String? locale = LocaleDatabaseHelper.i.currentUserLang ?? Platform.localeName.substring(0, 2);
-  // StreamSubscription<bool>? themeStreamSubs;
   StreamSubscription<String>? langStreamSubs;
   @override
   void initState() {
@@ -50,10 +47,6 @@ class _MyAppState extends State<MyApp> {
 
   @override
   void dispose() {
-    // themeStreamSubs?.cancel();π
-    // langStreamSubs?.cancel();
-    // TempStorage.themeDataController.close();
-    // TempStorage.langDataController.close();
     SocketConfig.i.closeSocket();
     super.dispose();
   }
@@ -68,11 +61,6 @@ class _MyAppState extends State<MyApp> {
             title: 'Flutter Demo',
             debugShowCheckedModeBanner: false,
             themeMode: state.isLight ? ThemeMode.light : ThemeMode.dark,
-            // themeMode: isLight == null
-            //     ? ThemeMode.light
-            //     : isLight!
-            //         ? ThemeMode.light
-            //         : ThemeMode.dark,
             theme: FlexColorScheme.light(scheme: FlexScheme.green).toTheme,
             darkTheme: FlexColorScheme.dark(scheme: FlexScheme.green).toTheme,
             localizationsDelegates: AppLocalizations.localizationsDelegates,

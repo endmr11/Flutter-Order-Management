@@ -27,15 +27,3 @@ class OrderManagementProcessError extends OrderManagementState {
   @override
   List<Object> get props => [UniqueKey(), error];
 }
-
-//class OrderManagementUpdateLoading extends OrderManagementState {}
-
-// class OrderManagementUpdateSuccesful extends OrderManagementState {
-//   final List<OrderModel> responseOrder;
-
-//   const OrderManagementUpdateSuccesful(this.responseOrder);
-//   @override
-//   List<Object> get props => [UniqueKey(),responseOrder];
-// }
-
-// class OrderManagementUpdateError extends OrderManagementState {}

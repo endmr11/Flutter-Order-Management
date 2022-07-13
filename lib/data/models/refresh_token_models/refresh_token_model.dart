@@ -1,7 +1,3 @@
-// To parse this JSON data, do
-//
-//     final refreshTokenModel = refreshTokenModelFromJson(jsonString);
-
 import 'dart:convert';
 
 RefreshTokenModel refreshTokenModelFromJson(String str) => RefreshTokenModel.fromJson(json.decode(str));

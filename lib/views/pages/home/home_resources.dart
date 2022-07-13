@@ -7,11 +7,7 @@ mixin HomeResources {
   final String title = 'Home';
   HomeBloc? homeBloc;
   ShoppingCartBloc? shoppingCartBloc;
-  //List<ProductModel> allProducts = [];
-  //bool? isLoading;
   int screenIndex = 0;
-  // List<ProductModel> cartProducts = [];
-  // List<int> cartProductCount = [];
   List<OrderProductModel> productList = [];
   
 }

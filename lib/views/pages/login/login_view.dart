@@ -35,7 +35,6 @@ class LoginView extends LoginViewModel {
                       : true
                   : false);
               context.read<MainBloc>().add(const ThemeChangeEvent());
-              // TempStorage.themeDataController.add(LocaleDatabaseHelper.i.isLight!);
             },
             icon: const Icon(Icons.brightness_6),
           ),
@@ -45,7 +44,6 @@ class LoginView extends LoginViewModel {
               setState(() {
                 dropdownValue = val!;
                 context.read<MainBloc>().add(LanguageChangeEvent(val));
-                // TempStorage.langDataController.add(val);
               });
             },
             items: <String>['en', 'tr'].map<DropdownMenuItem<String>>((String value) {

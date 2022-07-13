@@ -43,7 +43,6 @@ class OrderManagementBloc extends Bloc<OrderManagementEvent, OrderManagementStat
           var index = allOrders.indexWhere((element) => element.orderId == orderResponse.model!.first.orderId);
           allOrders[index] = orderResponse.model!.first;
           emit(OrderManagementProcessSuccesful(allOrders, allProducts));
-          //emit(OrderManagementUpdateSuccesful(allOrders));
         }
       } catch (e) {
         log(e.toString(), error: "OrderManagementUpdateError");

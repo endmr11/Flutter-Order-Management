@@ -1,20 +1,5 @@
 import 'package:flutter/material.dart';
 
-/* Widget classicAppBar({required String? title, required bool? centerTitle})  {
-  return AppBar(
-    title: Text(title ?? ""),
-    centerTitle: centerTitle,
-  );
-}
-
-Widget customActionsAppBar({required String? title, required bool? centerTitle, required List<Widget>? actions}) {
-  return AppBar(
-    title: Text(title ?? ""),
-    centerTitle: centerTitle,
-    actions: actions,
-  );
-}
- */
 
 class ClassicAppBar extends StatelessWidget implements PreferredSizeWidget {
   @override
