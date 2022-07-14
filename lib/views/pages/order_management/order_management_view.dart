@@ -19,7 +19,7 @@ class OrderManagementView extends OrderManagementViewModel {
         centerTitle: true,
       ),
       body: BlocConsumer(
-        bloc: orderManagementBloc,
+        bloc: context.read<OrderManagementBloc>(),
         listener: (context, state) {
           if (state is OrderManagementProcessError) {
             DialogManager.i.showClassicAlertDialog(
@@ -58,18 +58,18 @@ class OrderManagementView extends OrderManagementViewModel {
                                       ),
                                     );
                                   }
-                                  orderManagementBloc?.add(
-                                    OrderManagementUpdateEvent(
-                                      OrderRequestModel(
-                                        userId: state.allOrders[index].userId,
-                                        products: productList,
-                                        userName: state.allOrders[index].userName,
-                                        userSurname: state.allOrders[index].userSurname,
-                                        orderStatus: state.allOrders[index].orderStatus == 0 ? 1 : 0,
-                                      ),
-                                      state.allOrders[index].orderId.toString(),
-                                    ),
-                                  );
+                                  context.read<OrderManagementBloc>().add(
+                                        OrderManagementUpdateEvent(
+                                          OrderRequestModel(
+                                            userId: state.allOrders[index].userId,
+                                            products: productList,
+                                            userName: state.allOrders[index].userName,
+                                            userSurname: state.allOrders[index].userSurname,
+                                            orderStatus: state.allOrders[index].orderStatus == 0 ? 1 : 0,
+                                          ),
+                                          state.allOrders[index].orderId.toString(),
+                                        ),
+                                      );
                                 }
                               },
                               backgroundColor: Colors.green,

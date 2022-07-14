@@ -14,7 +14,7 @@ class MyOrdersView extends MyOrdersViewModel {
         title: const Text("Siparişlerim"),
       ),
       body: BlocConsumer(
-        bloc: myOrdersBloc,
+        bloc: context.read<MyOrdersBloc>(),
         listener: (context, state) {},
         builder: (context, state) {
           if (state is MyOrdersProcessLoading) {

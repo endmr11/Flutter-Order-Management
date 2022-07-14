@@ -69,7 +69,8 @@ class LoginView extends LoginViewModel {
                 Navigator.pop(context);
                 Navigator.pushReplacement(
                   context,
-                  MaterialPageRoute(builder: (BuildContext context) => const PageManagement()),
+                  MaterialPageRoute(
+                      builder: (BuildContext context) => const PageManagement()),
                 );
               } else if (state is LoginProcessError) {
                 Navigator.pop(context);
