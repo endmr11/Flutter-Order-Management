@@ -2,6 +2,7 @@ import 'package:flag/flag.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:flutter_order_management/data/sources/api/api_service.dart';
 import 'package:flutter_order_management/data/sources/database/local_database_helper.dart';
 import 'package:flutter_order_management/views/components/app_bars/classic_app_bar.dart';
 import 'package:flutter_order_management/views/components/buttons/classic_button.dart';
@@ -43,8 +44,8 @@ class LoginView extends LoginViewModel {
             onChanged: (val) {
               setState(() {
                 dropdownValue = val!;
-                context.read<MainBloc>().add(LanguageChangeEvent(val));
               });
+              context.read<MainBloc>().add(LanguageChangeEvent(val));
             },
             items: <String>['en', 'tr'].map<DropdownMenuItem<String>>((String value) {
               return DropdownMenuItem<String>(
@@ -55,35 +56,38 @@ class LoginView extends LoginViewModel {
           ),
         ],
       ),
-      body: BlocProvider(
-        create: (context) => loginBloc ?? LoginBloc(),
-        child: BlocListener<LoginBloc, LoginState>(
-          bloc: loginBloc,
-          listener: (context, state) {
-            if (state is LoginProcessLoading) {
-              showLoadingDialog();
-            } else if (state is LoginProcessSuccesful) {
-              Navigator.pop(context);
-              Navigator.pushReplacement(
-                context,
-                MaterialPageRoute(builder: (BuildContext context) => const PageManagement()),
-              );
-            } else if (state is LoginProcessError) {
-              Navigator.pop(context);
-              showErrorDialog();
-            }
-          },
-          child: Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: SingleChildScrollView(
-              physics: const AlwaysScrollableScrollPhysics(),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.start,
-                children: [
-                  Image.asset(loginBannerUri),
-                  classicHeightSpacer(height: 20),
-                  formBuilder(),
-                ],
+      body: RepositoryProvider(
+        create: (context) => APIService(),
+        child: BlocProvider(
+          create: (context) => loginBloc ?? LoginBloc(APIService()),
+          child: BlocListener<LoginBloc, LoginState>(
+            bloc: loginBloc,
+            listener: (context, state) {
+              if (state is LoginProcessLoading) {
+                showLoadingDialog();
+              } else if (state is LoginProcessSuccesful) {
+                Navigator.pop(context);
+                Navigator.pushReplacement(
+                  context,
+                  MaterialPageRoute(builder: (BuildContext context) => const PageManagement()),
+                );
+              } else if (state is LoginProcessError) {
+                Navigator.pop(context);
+                showErrorDialog();
+              }
+            },
+            child: Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: SingleChildScrollView(
+                physics: const AlwaysScrollableScrollPhysics(),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: [
+                    Image.asset(loginBannerUri),
+                    classicHeightSpacer(height: 20),
+                    formBuilder(),
+                  ],
+                ),
               ),
             ),
           ),

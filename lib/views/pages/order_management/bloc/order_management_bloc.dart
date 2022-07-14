@@ -13,14 +13,12 @@ part 'order_management_event.dart';
 part 'order_management_state.dart';
 
 class OrderManagementBloc extends Bloc<OrderManagementEvent, OrderManagementState> {
-  OrderManagementBloc() : super(OrderManagementInitialState()) {
+  IAPIService apiService = APIService();
+  OrderManagementBloc(this.apiService) : super(OrderManagementInitialState()) {
     on(orderManagementEventControl);
   }
-
-  final apiService = APIService();
   List<OrderModel> allOrders = [];
   List<ProductModel> allProducts = [];
-
   Future<void> orderManagementEventControl(OrderManagementEvent event, Emitter<OrderManagementState> emit) async {
     if (event is OrderManagementProcessStartEvent) {
       emit(OrderManagementProcessLoading());

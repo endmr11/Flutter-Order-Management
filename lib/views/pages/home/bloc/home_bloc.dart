@@ -9,10 +9,10 @@ part 'home_event.dart';
 part 'home_state.dart';
 
 class HomeBloc extends Bloc<HomeEvent, HomeState> {
-  HomeBloc() : super(HomeInitialState()) {
+  IAPIService apiService = APIService();
+  HomeBloc(this.apiService) : super(HomeInitialState()) {
     on(homeEventControl);
   }
-  final apiService = APIService();
   List<ProductModel> allProducts = [];
   Future<void> homeEventControl(HomeEvent event, Emitter<HomeState> emit) async {
     if (event is HomeProcessStart) {

@@ -11,10 +11,10 @@ part 'shopping_cart_event.dart';
 part 'shopping_cart_state.dart';
 
 class ShoppingCartBloc extends Bloc<ShoppingCartEvent, ShoppingCartState> {
-  ShoppingCartBloc() : super(ShoppingCartInitialState()) {
+  IAPIService apiService = APIService();
+  ShoppingCartBloc(this.apiService) : super(ShoppingCartInitialState()) {
     on(shoppingCartEventControl);
   }
-  final apiService = APIService();
   List<ProductModel> cartProducts = [];
   List<int> cartProductCount = [];
   Future<void> shoppingCartEventControl(ShoppingCartEvent event, Emitter<ShoppingCartState> emit) async {

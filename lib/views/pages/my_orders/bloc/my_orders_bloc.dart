@@ -13,10 +13,10 @@ part 'my_orders_event.dart';
 part 'my_orders_state.dart';
 
 class MyOrdersBloc extends Bloc<MyOrdersEvent, MyOrdersState> {
-  MyOrdersBloc() : super(MyOrdersInitialState()) {
+  IAPIService apiService = APIService();
+  MyOrdersBloc(this.apiService) : super(MyOrdersInitialState()) {
     on(myOrdersEventControl);
   }
-  final apiService = APIService();
   List<OrderModel> allOrders = [];
   List<ProductModel> allProducts = [];
   Future<void> myOrdersEventControl(MyOrdersEvent event, Emitter<MyOrdersState> emit) async {

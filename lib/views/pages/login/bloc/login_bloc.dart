@@ -13,12 +13,10 @@ part 'login_event.dart';
 part 'login_state.dart';
 
 class LoginBloc extends Bloc<LoginEvent, LoginState> {
-  LoginBloc() : super(LoginInitialState()) {
+  IAPIService apiService = APIService();
+  LoginBloc(this.apiService) : super(LoginInitialState()) {
     on(loginEventControl);
   }
-
-  final apiService = APIService();
-
   Future<void> loginEventControl(LoginEvent event, Emitter<LoginState> emit) async {
     if (event is LoginProcessStart) {
       log("EMAIL: ${event.email} & PASSWORD: ${event.password}", name: "EVENT: LoginProcessStart");

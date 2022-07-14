@@ -3,6 +3,7 @@ import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:flutter_order_management/core/global/socket/socket_config.dart';
 import 'package:flutter_order_management/data/models/order_models/order_model.dart';
+import 'package:flutter_order_management/data/sources/api/api_service.dart';
 import 'package:flutter_order_management/views/pages/order_management/bloc/order_management_bloc.dart';
 import 'package:flutter_order_management/views/pages/order_management/order_management.dart';
 import 'package:flutter_order_management/views/pages/order_management/order_management_resources.dart';
@@ -10,7 +11,7 @@ import 'package:flutter_order_management/views/pages/order_management/order_mana
 abstract class OrderManagementViewModel extends State<OrderManagement> with OrderManagementResources {
   @override
   void initState() {
-    orderManagementBloc = OrderManagementBloc();
+    orderManagementBloc = OrderManagementBloc(APIService());
     orderManagementBloc?.add(OrderManagementProcessStartEvent());
     socket = SocketConfig.socket;
     socket?.on('createOrderResponse', (val) {

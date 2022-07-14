@@ -4,6 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_order_management/core/global/global_blocs/shopping_cart/bloc/shopping_cart_bloc.dart';
 import 'package:flutter_order_management/data/models/order_models/order_request_model.dart';
+import 'package:flutter_order_management/data/sources/api/api_service.dart';
 import 'package:flutter_order_management/data/sources/database/local_database_helper.dart';
 import 'package:flutter_order_management/views/components/buttons/classic_button.dart';
 import 'package:flutter_order_management/views/pages/login/login.dart';
@@ -25,10 +26,10 @@ class HomeView extends HomeViewModel {
       body: MultiBlocProvider(
         providers: [
           BlocProvider(
-            create: (context) => homeBloc ?? HomeBloc(),
+            create: (context) => homeBloc ?? HomeBloc(APIService()),
           ),
           BlocProvider(
-            create: (context) => shoppingCartBloc ?? ShoppingCartBloc(),
+            create: (context) => shoppingCartBloc ?? ShoppingCartBloc(APIService()),
           ),
         ],
         child: MultiBlocListener(

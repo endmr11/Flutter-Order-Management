@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_order_management/data/sources/api/api_service.dart';
 
 import 'bloc/login_bloc.dart';
 import 'login.dart';
@@ -9,7 +10,7 @@ abstract class LoginViewModel extends State<Login> with LoginResources {
 
   @override
   void initState() {
-    loginBloc = LoginBloc();
+    loginBloc = LoginBloc(APIService());
     super.initState();
   }
 

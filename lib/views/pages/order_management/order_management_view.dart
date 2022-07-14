@@ -6,7 +6,6 @@ import 'package:flutter_order_management/data/sources/database/local_database_he
 import 'package:flutter_order_management/views/pages/login/login.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 
-import '../../../core/utils/util/util_manager.dart';
 import '../../widgets/dialog_managers/dialog_manager.dart';
 import 'bloc/order_management_bloc.dart';
 import 'order_management_view_model.dart';
@@ -88,7 +87,7 @@ class OrderManagementView extends OrderManagementViewModel {
                           title: Text(
                             state.allOrders[index].userName ?? "",
                           ),
-                          trailing: Text("${UtilManager().priceCalculate(state.allOrders[index].products, state.allProducts)}₺"),
+                          trailing: Text("${utilManager.priceCalculate(state.allOrders[index].products, state.allProducts)}₺"),
                           onTap: () {
                             List<Widget> tempCartProducts = [];
                             state.allOrders[index].products?.forEach(
@@ -112,7 +111,7 @@ class OrderManagementView extends OrderManagementViewModel {
                               title: "Sipariş Detayı",
                               content: tempCartProducts,
                               actions: [],
-                              totalPrice: UtilManager().priceCalculate(state.allOrders[index].products, state.allProducts),
+                              totalPrice: utilManager.priceCalculate(state.allOrders[index].products, state.allProducts),
                             );
                           },
                         ),
