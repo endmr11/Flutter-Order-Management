@@ -7,12 +7,14 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_order_management/core/env/env_config.dart';
 import 'package:flutter_order_management/core/global/socket/socket_config.dart';
 import 'package:flutter_order_management/data/sources/api/api_service.dart';
+import 'package:flutter_order_management/views/pages/home/home.dart';
 import 'package:flutter_order_management/views/pages/login/login.dart';
-import 'package:flutter_order_management/views/pages/page_management/page_management.dart';
+import 'package:flutter_order_management/views/pages/order_management/order_management.dart';
 import 'package:socket_io_client/socket_io_client.dart' as socketio;
 
 import 'app_observer.dart';
 import 'core/global/global_blocs/main_bloc/main_bloc.dart';
+import 'core/router/router.dart';
 import 'data/sources/database/local_database_helper.dart';
 import 'views/pages/my_orders/my_orders_bloc/my_orders_bloc.dart';
 import 'views/pages/order_management/order_management_bloc/order_management_bloc.dart';
@@ -99,9 +101,12 @@ class _MyAppState extends State<MyApp> {
             localizationsDelegates: AppLocalizations.localizationsDelegates,
             supportedLocales: AppLocalizations.supportedLocales,
             locale: Locale(state.locale),
+            onGenerateRoute: (settings) => generateRoute(settings),
             home: LocaleDatabaseHelper.i.isLoggedIn != null
                 ? LocaleDatabaseHelper.i.isLoggedIn!
-                    ? const PageManagement()
+                    ? LocaleDatabaseHelper.i.currentUserType == 0
+                        ? const Home()
+                        : const OrderManagement()
                     : const Login()
                 : const Login(),
           );

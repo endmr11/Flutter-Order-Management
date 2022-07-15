@@ -8,7 +8,8 @@ import 'package:flutter_order_management/views/components/app_bars/classic_app_b
 import 'package:flutter_order_management/views/components/buttons/classic_button.dart';
 import 'package:flutter_order_management/views/components/spacer/spacer.dart';
 import 'package:flutter_order_management/views/components/text_form_fields/classic_text_form_field.dart';
-import 'package:flutter_order_management/views/pages/page_management/page_management.dart';
+import 'package:flutter_order_management/views/pages/home/home.dart';
+import 'package:flutter_order_management/views/pages/order_management/order_management.dart';
 import 'package:universal_io/io.dart';
 
 import '../../../core/global/global_blocs/main_bloc/main_bloc.dart';
@@ -67,10 +68,7 @@ class LoginView extends LoginViewModel {
                 showLoadingDialog();
               } else if (state is LoginProcessSuccesful) {
                 Navigator.pop(context);
-                Navigator.pushReplacement(
-                  context,
-                  MaterialPageRoute(builder: (BuildContext context) => const PageManagement()),
-                );
+                Navigator.pushReplacementNamed(context, LocaleDatabaseHelper.i.currentUserType == 0 ? Home.routeName : OrderManagement.routeName);
               } else if (state is LoginProcessError) {
                 Navigator.pop(context);
                 showErrorDialog(state.error);

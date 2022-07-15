@@ -122,12 +122,7 @@ class OrderManagementView extends OrderManagementViewModel {
                 ElevatedButton(
                   onPressed: () async {
                     await LocaleDatabaseHelper.i.userSessionClear();
-                    Navigator.pushReplacement(
-                      context,
-                      MaterialPageRoute(
-                        builder: (BuildContext context) => const Login(),
-                      ),
-                    );
+                    Navigator.pushReplacementNamed(context, Login.routeName);
                   },
                   child: const Text("Çık"),
                 )

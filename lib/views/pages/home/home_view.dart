@@ -349,19 +349,14 @@ class CustomDrawer extends StatelessWidget {
           TextButton(
             onPressed: () async {
               Scaffold.of(context).openEndDrawer();
-              Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) => const MyOrders()));
+              Navigator.pushNamed(context, MyOrders.routeName);
             },
             child: const Text("Siparişlerim"),
           ),
           TextButton(
             onPressed: () async {
               await LocaleDatabaseHelper.i.userSessionClear();
-              Navigator.pushReplacement(
-                context,
-                MaterialPageRoute(
-                  builder: (BuildContext context) => const Login(),
-                ),
-              );
+              Navigator.pushReplacementNamed(context, Login.routeName);
             },
             child: const Text("Çık"),
           ),
