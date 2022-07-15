@@ -1,9 +1,10 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_order_management/views/pages/order_management/bloc/order_management_bloc.dart';
 import 'package:flutter_order_management/views/pages/order_management/order_management.dart';
 import 'package:flutter_order_management/views/pages/order_management/order_management_resources.dart';
+
+import 'order_management_bloc/order_management_bloc.dart';
 
 abstract class OrderManagementViewModel extends State<OrderManagement> with OrderManagementResources {
   @override

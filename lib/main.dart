@@ -8,14 +8,15 @@ import 'package:flutter_order_management/core/env/env_config.dart';
 import 'package:flutter_order_management/core/global/socket/socket_config.dart';
 import 'package:flutter_order_management/data/sources/api/api_service.dart';
 import 'package:flutter_order_management/views/pages/login/login.dart';
-import 'package:flutter_order_management/views/pages/my_orders/bloc/my_orders_bloc.dart';
-import 'package:flutter_order_management/views/pages/order_management/bloc/order_management_bloc.dart';
 import 'package:flutter_order_management/views/pages/page_management/page_management.dart';
 import 'package:socket_io_client/socket_io_client.dart' as socketio;
 
 import 'app_observer.dart';
 import 'core/global/global_blocs/main_bloc/main_bloc.dart';
 import 'data/sources/database/local_database_helper.dart';
+import 'views/pages/my_orders/my_orders_bloc/my_orders_bloc.dart';
+import 'views/pages/order_management/order_management_bloc/order_management_bloc.dart';
+import 'views/widgets/dialog_managers/dialog_manager.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -58,7 +59,12 @@ class _MyAppState extends State<MyApp> {
     try {
       tryInitSocket();
     } catch (e) {
-      print(e.toString());
+      DialogManager.i.showClassicAlertDialog(
+        context: context,
+        title: "Hata",
+        content: [Text(e.toString())],
+        actions: [ElevatedButton(onPressed: () => Navigator.pop(context), child: const Text("Ok"))],
+      );
     }
     super.initState();
   }

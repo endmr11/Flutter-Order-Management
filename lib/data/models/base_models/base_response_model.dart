@@ -30,6 +30,9 @@ class BaseListResponse<T> {
   });
 
   factory BaseListResponse.fromJson(Map<String, dynamic> json, Function(List<dynamic>) build) {
-    return BaseListResponse<T>(status: json['status'], message: json['message'],  path: json['path'], model: build(json['model']));
+    return BaseListResponse<T>(status: json['status'], message: json['message'], path: json['path'], model: build(json['model']));
+  }
+  factory BaseListResponse.fromJsonWithoutModel(Map<String, dynamic> json) {
+    return BaseListResponse<T>(status: json['status'], message: json['message'], path: json['path'], model: null);
   }
 }

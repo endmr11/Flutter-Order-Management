@@ -7,7 +7,7 @@ import 'package:flutter_order_management/views/pages/login/login.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 
 import '../../widgets/dialog_managers/dialog_manager.dart';
-import 'bloc/order_management_bloc.dart';
+import 'order_management_bloc/order_management_bloc.dart';
 import 'order_management_view_model.dart';
 
 class OrderManagementView extends OrderManagementViewModel {

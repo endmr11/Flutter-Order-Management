@@ -20,4 +20,10 @@ class MyOrdersProcessSuccesful extends MyOrdersState {
   List<Object> get props => [UniqueKey(), allOrders, allProducts];
 }
 
-class MyOrdersProcessError extends MyOrdersState {}
+class MyOrdersProcessError extends MyOrdersState {
+  final String error;
+
+  const MyOrdersProcessError(this.error);
+  @override
+  List<Object> get props => [UniqueKey(), error];
+}

@@ -13,7 +13,7 @@ import 'package:universal_io/io.dart';
 
 import '../../../core/global/global_blocs/main_bloc/main_bloc.dart';
 import '../../widgets/dialog_managers/dialog_manager.dart';
-import 'bloc/login_bloc.dart';
+import 'login_bloc/login_bloc.dart';
 import 'login_view_model.dart';
 
 class LoginView extends LoginViewModel {
@@ -69,12 +69,11 @@ class LoginView extends LoginViewModel {
                 Navigator.pop(context);
                 Navigator.pushReplacement(
                   context,
-                  MaterialPageRoute(
-                      builder: (BuildContext context) => const PageManagement()),
+                  MaterialPageRoute(builder: (BuildContext context) => const PageManagement()),
                 );
               } else if (state is LoginProcessError) {
                 Navigator.pop(context);
-                showErrorDialog();
+                showErrorDialog(state.error);
               }
             },
             child: Padding(
@@ -158,10 +157,10 @@ class LoginView extends LoginViewModel {
     DialogManager.i.showLoadingAlertDialog(context: context);
   }
 
-  void showErrorDialog() {
+  void showErrorDialog(String error) {
     DialogManager.i.showClassicAlertDialog(
       context: context,
-      content: [const Text("Hatalı Bilgi Girdiniz")],
+      content: [Text(error)],
       title: "Hata",
       actions: [
         classicButton(

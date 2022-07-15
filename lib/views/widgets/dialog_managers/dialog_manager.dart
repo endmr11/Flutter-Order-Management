@@ -53,8 +53,6 @@ class DialogManager {
     );
   }
 
- 
-
   Future<void> showLoadingAlertDialog({
     required BuildContext context,
   }) async {

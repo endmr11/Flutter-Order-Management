@@ -3,7 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_order_management/data/models/product_models/product_model.dart';
 
 import '../../widgets/dialog_managers/dialog_manager.dart';
-import 'bloc/my_orders_bloc.dart';
+import 'my_orders_bloc/my_orders_bloc.dart';
 import 'my_orders_view_model.dart';
 
 class MyOrdersView extends MyOrdersViewModel {
@@ -15,7 +15,16 @@ class MyOrdersView extends MyOrdersViewModel {
       ),
       body: BlocConsumer(
         bloc: context.read<MyOrdersBloc>(),
-        listener: (context, state) {},
+        listener: (context, state) {
+          if (state is MyOrdersProcessError) {
+            DialogManager.i.showClassicAlertDialog(
+              context: context,
+              title: "Hata",
+              content: [Text(state.error)],
+              actions: [ElevatedButton(onPressed: () => Navigator.pop(context), child: const Text("Ok"))],
+            );
+          }
+        },
         builder: (context, state) {
           if (state is MyOrdersProcessLoading) {
             return const Center(

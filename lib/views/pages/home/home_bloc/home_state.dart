@@ -19,4 +19,11 @@ class HomeProcessSuccesful extends HomeState {
   List<Object> get props => [allProducts];
 }
 
-class HomeProcessError extends HomeState {}
+class HomeProcessError extends HomeState {
+  final String error;
+
+  const HomeProcessError(this.error);
+
+  @override
+  List<Object> get props => [error];
+}

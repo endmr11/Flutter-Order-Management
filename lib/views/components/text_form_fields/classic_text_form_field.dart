@@ -5,8 +5,8 @@ Widget classicTextFormField({
   required BuildContext context,
   required TextEditingController? controllerText,
   required String? dataText,
-  Widget?  prefixIcon,
-  Widget?  suffixIcon,
+  Widget? prefixIcon,
+  Widget? suffixIcon,
   bool? obscureText,
 }) {
   return TextFormField(

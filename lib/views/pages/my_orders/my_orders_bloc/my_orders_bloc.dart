@@ -32,7 +32,7 @@ class MyOrdersBloc extends Bloc<MyOrdersEvent, MyOrdersState> {
         }
       } catch (e) {
         log(e.toString(), error: "MyOrdersProcessError");
-        emit(MyOrdersProcessError());
+        emit(MyOrdersProcessError(e.toString()));
       }
     } else if (event is MyOrdersProcessSocketUpdateEvent) {
       var index = allOrders.indexWhere((element) => element.orderId == event.model.orderId);

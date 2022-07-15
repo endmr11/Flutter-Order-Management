@@ -10,9 +10,9 @@ import 'package:flutter_order_management/views/pages/login/login.dart';
 import 'package:flutter_order_management/views/pages/my_orders/my_orders.dart';
 
 import '../../widgets/dialog_managers/dialog_manager.dart';
-import 'bloc/home_bloc.dart';
+import 'home_bloc/home_bloc.dart';
 import 'home_view_model.dart';
-import 'shopping_cart/bloc/shopping_cart_bloc.dart';
+import 'shopping_cart_bloc/bloc/shopping_cart_bloc.dart';
 
 class HomeView extends HomeViewModel {
   @override
@@ -37,9 +37,14 @@ class HomeView extends HomeViewModel {
             BlocListener<HomeBloc, HomeState>(
               bloc: homeBloc,
               listener: (context, state) {
-                if (state is HomeProcessLoading) {
-                } else if (state is HomeProcessSuccesful) {
-                } else if (state is HomeProcessError) {}
+                if (state is HomeProcessError) {
+                  DialogManager.i.showClassicAlertDialog(
+                    context: context,
+                    title: "Hata",
+                    content: [Text(state.error)],
+                    actions: [ElevatedButton(onPressed: () => Navigator.pop(context), child: const Text("Ok"))],
+                  );
+                }
               },
             ),
             BlocListener<ShoppingCartBloc, ShoppingCartState>(
@@ -66,7 +71,7 @@ class HomeView extends HomeViewModel {
                   });
                 } else if (state is ShoppingCartOrderError) {
                   Navigator.pop(context);
-                  showErrorDialog();
+                  showErrorDialog(state.error);
                 }
               },
             ),
@@ -311,10 +316,10 @@ class HomeView extends HomeViewModel {
     DialogManager.i.showLoadingAlertDialog(context: context);
   }
 
-  void showErrorDialog() {
+  void showErrorDialog(String error) {
     DialogManager.i.showClassicAlertDialog(
       context: context,
-      content: [const Text("Hatalı Bilgi Girdiniz")],
+      content: [Text(error)],
       title: "Hata",
       actions: [
         classicButton(

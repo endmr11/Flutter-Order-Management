@@ -22,10 +22,10 @@ class ShoppingCartLoadedState extends ShoppingCartState {
   final List<ProductModel> cartProducts;
   final List<int> cartProductCount;
 
-  const ShoppingCartLoadedState(this.cartProducts,this.cartProductCount);
+  const ShoppingCartLoadedState(this.cartProducts, this.cartProductCount);
 
   @override
-  List<Object> get props => [UniqueKey(), cartProducts,cartProductCount];
+  List<Object> get props => [UniqueKey(), cartProducts, cartProductCount];
 }
 
 class ShoppingCartOrderLoading extends ShoppingCartState {}
@@ -35,4 +35,11 @@ class ShoppingCartOrderSuccesful extends ShoppingCartState {
   List<Object> get props => [UniqueKey()];
 }
 
-class ShoppingCartOrderError extends ShoppingCartState {}
+class ShoppingCartOrderError extends ShoppingCartState {
+  final String error;
+
+  const ShoppingCartOrderError(this.error);
+
+  @override
+  List<Object> get props => [UniqueKey(), error];
+}

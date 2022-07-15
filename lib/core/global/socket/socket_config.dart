@@ -1,11 +1,11 @@
 import 'dart:developer';
 
-import 'package:flutter_order_management/views/pages/my_orders/bloc/my_orders_bloc.dart';
-import 'package:flutter_order_management/views/pages/order_management/bloc/order_management_bloc.dart';
 import 'package:socket_io_client/socket_io_client.dart' as socketio;
 
 import '../../../data/models/order_models/order_model.dart';
 import '../../../data/sources/database/local_database_helper.dart';
+import '../../../views/pages/my_orders/my_orders_bloc/my_orders_bloc.dart';
+import '../../../views/pages/order_management/order_management_bloc/order_management_bloc.dart';
 
 abstract class ISocketConfig {
   late final socketio.Socket _socket;

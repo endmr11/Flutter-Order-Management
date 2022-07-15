@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_order_management/data/sources/api/api_service.dart';
 
-import 'bloc/login_bloc.dart';
 import 'login.dart';
+import 'login_bloc/login_bloc.dart';
 import 'login_resources.dart';
 
 abstract class LoginViewModel extends State<Login> with LoginResources {

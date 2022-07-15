@@ -17,12 +17,14 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
   Future<void> homeEventControl(HomeEvent event, Emitter<HomeState> emit) async {
     if (event is HomeProcessStart) {
       emit(HomeProcessLoading());
-      BaseListResponse<ProductModel>? response = await apiService.getAllProducts();
-      if (response != null) {
-        allProducts.addAll(response.model!);
-        emit(HomeProcessSuccesful(allProducts));
-      } else {
-        emit(HomeProcessError());
+      try {
+        BaseListResponse<ProductModel>? response = await apiService.getAllProducts();
+        if (response != null) {
+          allProducts.addAll(response.model!);
+          emit(HomeProcessSuccesful(allProducts));
+        }
+      } catch (e) {
+        emit(HomeProcessError(e.toString()));
       }
     }
   }

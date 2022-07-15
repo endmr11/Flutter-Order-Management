@@ -30,12 +30,15 @@ class APIService extends IAPIService {
     };
     var url = Uri.parse(EnvConfig.apiURL + EnvConfig.loginEP);
     var response = await http.post(url, headers: requestHeaders, body: jsonEncode(model.toJson()));
-    final baseListResponse = BaseListResponse<LoginModel>.fromJson(json.decode(response.body), (data) => data.map((e) => LoginModel.fromJson(e)).toList());
     if (response.statusCode == 200) {
+      final baseListResponse = BaseListResponse<LoginModel>.fromJson(json.decode(response.body), (data) => data.map((e) => LoginModel.fromJson(e)).toList());
+      log(response.statusCode.toString(), name: "API PATH:/login");
+      return baseListResponse;
+    } else {
+      final baseListResponse = BaseListResponse<LoginModel>.fromJsonWithoutModel(json.decode(response.body));
       log(response.statusCode.toString(), name: "API PATH:/login");
       return baseListResponse;
     }
-    return null;
   }
 
   @override

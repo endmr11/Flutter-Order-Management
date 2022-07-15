@@ -22,11 +22,13 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
       log("EMAIL: ${event.email} & PASSWORD: ${event.password}", name: "EVENT: LoginProcessStart");
       emit(LoginProcessLoading());
       BaseListResponse<LoginModel>? response = await apiService.login(LoginRequestModel(email: event.email, password: event.password));
-      if (response != null) {
-        setSession(response.model?.first);
-        emit(LoginProcessSuccesful());
+      if (response != null && response.status == 200) {
+        if (response.model != null && response.model!.isNotEmpty) {
+          setSession(response.model!.first);
+          emit(LoginProcessSuccesful());
+        }
       } else {
-        emit(LoginProcessError());
+        emit(LoginProcessError(response?.message ?? ""));
       }
     }
   }

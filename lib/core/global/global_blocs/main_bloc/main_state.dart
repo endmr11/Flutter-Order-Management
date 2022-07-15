@@ -11,7 +11,7 @@ class ThemeChangeState extends MainState {
   final bool isLight;
   final String locale;
 
-  const ThemeChangeState(this.isLight,this.locale);
+  const ThemeChangeState(this.isLight, this.locale);
   @override
-  List<Object> get props => [UniqueKey(), isLight,locale];
+  List<Object> get props => [UniqueKey(), isLight, locale];
 }
