@@ -63,7 +63,7 @@ class _MyAppState extends State<MyApp> {
     super.initState();
   }
 
-  Future<void> tryInitSocket() async{
+  Future<void> tryInitSocket() async {
     MyOrdersBloc myOrdersBloc = context.read<MyOrdersBloc>();
     OrderManagementBloc orderManagementBloc = context.read<OrderManagementBloc>();
     await socketConfig.initSocket(myOrdersBloc, orderManagementBloc);
@@ -96,8 +96,8 @@ class _MyAppState extends State<MyApp> {
             home: LocaleDatabaseHelper.i.isLoggedIn != null
                 ? LocaleDatabaseHelper.i.isLoggedIn!
                     ? const PageManagement()
-                    : Login(themeBloc: context.watch<MainBloc>())
-                : Login(themeBloc: context.watch<MainBloc>()),
+                    : const Login()
+                : const Login(),
           );
         } else {
           return Container();
